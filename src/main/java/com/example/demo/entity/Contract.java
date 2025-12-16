@@ -7,6 +7,7 @@ public class Contract {
     private Date agreedDeliveryDate;
     private BigDecimal baseContractValue;
     private String status;
-    private Timestamp createdA
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     
 }
