@@ -1,4 +1,4 @@
-package com.example.demo.serviceimpl;
+package com.example.demo.impl
 
 import com.example.demo.entity.Contract;
 
