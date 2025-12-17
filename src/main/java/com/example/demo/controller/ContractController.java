@@ -1,33 +1,40 @@
 package com.example.demo.controller;
+
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contracts")
 public class ContractController {
 
+    private final ContractService contractService;
+
+    // Constructor Injection (VERY IMPORTANT)
     public ContractController(ContractService contractService) {
         this.contractService = contractService;
     }
+
     @PostMapping
-    public Contract create(@RequestBody Contract contract) {
+    public Contract createContract(@RequestBody Contract contract) {
         return contractService.createContract(contract);
     }
 
     @PutMapping("/{id}")
-    public Contract update(@PathVariable Long id, @RequestBody Contract contract) {
+    public Contract updateContract(@PathVariable Long id,
+                                   @RequestBody Contract contract) {
         return contractService.updateContract(id, contract);
     }
 
     @GetMapping("/{id}")
-    public Contract getById(@PathVariable Long id) {
+    public Contract getContractById(@PathVariable Long id) {
         return contractService.getContractById(id);
     }
 
     @GetMapping
-    public List<Contract> getAll() {
+    public List<Contract> getAllContracts() {
         return contractService.getAllContracts();
     }
 

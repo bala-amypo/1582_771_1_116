@@ -1,7 +1,7 @@
-package com.example.demo.impl
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Contract;
-
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.service.ContractService;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,9 @@ public class ContractImpl implements ContractService {
     @Override
     public Contract updateContract(Long id, Contract contract) {
         Contract existing = getContractById(id);
+
+        existing.setTitle(contract.getTitle());
+        existing.setCounterpartyName(contract.getCounterpartyName());
         existing.setAgreedDeliveryDate(contract.getAgreedDeliveryDate());
         existing.setBaseContractValue(contract.getBaseContractValue());
         existing.setStatus(contract.getStatus());
@@ -33,7 +36,13 @@ public class ContractImpl implements ContractService {
         return contractRepository.save(existing);
     }
 
-   
+    @Override
+    public Contract getContractById(Long id) {
+        return contractRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Contract not found")
+                );
+    }
 
     @Override
     public List<Contract> getAllContracts() {
@@ -43,11 +52,7 @@ public class ContractImpl implements ContractService {
     @Override
     public void updateContractStatus(Long contractid) {
         Contract contract = getContractById(contractid);
-
-        // Status updated manually (no delivery logic here)
         contract.setStatus("UPDATED");
-
         contractRepository.save(contract);
     }
 }
-
