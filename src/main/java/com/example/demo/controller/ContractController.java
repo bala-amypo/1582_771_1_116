@@ -2,19 +2,26 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contracts")
+@RequestMapping("/contracts")
 public class ContractController {
 
-    private final ContractService contractService;
+    @Autowired
+    private ContractService contractService;
 
-    // Constructor Injection (VERY IMPORTANT)
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
+    @GetMapping
+    public List<Contract> getAllContracts() {
+        return contractService.getAllContracts();
+    }
+
+    @GetMapping("/{id}")
+    public Contract getContractById(@PathVariable Long id) {
+        return contractService.getContractById(id);
     }
 
     @PostMapping
@@ -28,18 +35,9 @@ public class ContractController {
         return contractService.updateContract(id, contract);
     }
 
-    @GetMapping("/{id}")
-    public Contract getContractById(@PathVariable Long id) {
-        return contractService.getContractById(id);
-    }
-
-    @GetMapping
-    public List<Contract> getAllContracts() {
-        return contractService.getAllContracts();
-    }
-
-    @PutMapping("/{id}/update-status")
-    public void updateStatus(@PathVariable Long id) {
-        contractService.updateContractStatus(id);
+    @DeleteMapping("/{id}")
+    public String deleteContract(@PathVariable Long id) {
+        contractService.deleteContract(id);
+        return "Deleted successfully";
     }
 }

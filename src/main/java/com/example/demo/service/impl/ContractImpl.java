@@ -1,21 +1,29 @@
-package com.example.demo.service.impl;
+package com.example.demo.impl;
 
 import com.example.demo.entity.Contract;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.service.ContractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractImpl implements ContractService {
 
-    private final ContractRepository contractRepository;
+    @Autowired
+    private ContractRepository contractRepository;
 
-    // Constructor Injection
-    public ContractImpl(ContractRepository contractRepository) {
-        this.contractRepository = contractRepository;
+    @Override
+    public List<Contract> getAllContracts() {
+        return contractRepository.findAll();
+    }
+
+    @Override
+    public Contract getContractById(Long id) {
+        Optional<Contract> contract = contractRepository.findById(id);
+        return contract.orElse(null); // ✅ No exception
     }
 
     @Override
@@ -25,34 +33,24 @@ public class ContractImpl implements ContractService {
 
     @Override
     public Contract updateContract(Long id, Contract contract) {
+
         Contract existing = getContractById(id);
 
-        existing.setTitle(contract.getTitle());
-        existing.setCounterpartyName(contract.getCounterpartyName());
-        existing.setAgreedDeliveryDate(contract.getAgreedDeliveryDate());
-        existing.setBaseContractValue(contract.getBaseContractValue());
-        existing.setStatus(contract.getStatus());
+        if (existing != null) {
+            existing.setTitle(contract.getTitle());
+            existing.setCounterpartyName(contract.getCounterpartyName());
+            existing.setContractNumber(contract.getContractNumber());
+            return contractRepository.save(existing);
+        }
 
-        return contractRepository.save(existing);
+        return null; // ✅ No exception
     }
 
     @Override
-    public Contract getContractById(Long id) {
-        return contractRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Contract not found")
-                );
-    }
-
-    @Override
-    public List<Contract> getAllContracts() {
-        return contractRepository.findAll();
-    }
-
-    @Override
-    public void updateContractStatus(Long contractid) {
-        Contract contract = getContractById(contractid);
-        contract.setStatus("UPDATED");
-        contractRepository.save(contract);
+    public void deleteContract(Long id) {
+        Contract contract = getContractById(id);
+        if (contract != null) {
+            contractRepository.delete(contract);
+        }
     }
 }
