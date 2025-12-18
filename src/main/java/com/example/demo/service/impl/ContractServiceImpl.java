@@ -6,6 +6,9 @@ import com.example.demo.service.ContractService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import jakarta.transaction.Transactional;
+
+@Transactional
 
 @Service
 public class ContractServiceImpl implements ContractService {
