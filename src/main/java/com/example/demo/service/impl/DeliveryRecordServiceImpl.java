@@ -1,9 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.entity.Contract;
-import com.example.demo.repository.DeliveryRecordRepository;
+import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.repository.ContractRepository;
+import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.DeliveryRecordService;
 
 import org.springframework.stereotype.Service;
@@ -24,16 +24,27 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     }
 
     @Override
-    public List<DeliveryRecord> getDeliveriesByContractId(Long contractId) {
-        return contractRepository.findById(contractId)
-                .map(deliveryRecordRepository::findByContract)
-                .orElse(List.of());
+    public DeliveryRecord createDeliveryRecord(DeliveryRecord deliveryRecord) {
+        return deliveryRecordRepository.save(deliveryRecord);
     }
 
     @Override
-    public DeliveryRecord getLatestDelivery(Long contractId) {
-        return contractRepository.findById(contractId)
-                .map(deliveryRecordRepository::findTopByContractOrderByDeliveryDateDesc)
-                .orElse(null);
+    public DeliveryRecord getRecordById(Long id) {
+        return deliveryRecordRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId) {
+        Contract contract = contractRepository.findById(contractId).orElse(null);
+        if (contract == null) return List.of();
+        return deliveryRecordRepository.findByContract(contract);
+    }
+
+    @Override
+    public DeliveryRecord getLatestDeliveryRecord(Long contractId) {
+        Contract contract = contractRepository.findById(contractId).orElse(null);
+        if (contract == null) return null;
+        return deliveryRecordRepository
+                .findTopByContractOrderByDeliveryDateDesc(contract);
     }
 }
