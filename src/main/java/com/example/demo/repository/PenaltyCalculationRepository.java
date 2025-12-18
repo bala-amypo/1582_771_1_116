@@ -1,16 +1,13 @@
-package com.example.demo.repository;
-
-import com.example.demo.entity.PenaltyCalculation;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+// ❌ Wrong import
 import org.springframework.stereotype.repository;
 
+// ✅ Correct import
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 @Repository
-public interface PenaltyCalculationRepository
-        extends JpaRepository<PenaltyCalculation, Long> {
-
+public interface PenaltyCalculationRepository extends JpaRepository<PenaltyCalculation, Long> {
     List<PenaltyCalculation> findByContractId(Long contractId);
 }
