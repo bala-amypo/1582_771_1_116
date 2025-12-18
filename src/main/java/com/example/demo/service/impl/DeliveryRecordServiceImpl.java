@@ -1,12 +1,12 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
+import com.example.demo.entity.DeliveryRecord;
+import com.example.demo.repository.DeliveryRecordRepository;
+import com.example.demo.service.DeliveryRecordService;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.repository.DeliveryRecordRepository;
-import com.example.demo.entity.DeliveryRecord;
-import com.example.demo.service.DeliveryRecordService;
+import java.util.List;
+
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
@@ -17,26 +17,22 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     }
 
     @Override
-    public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
+    public DeliveryRecord saveDeliveryRecord(DeliveryRecord record) {
         return deliveryRecordRepository.save(record);
     }
 
     @Override
-    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractid) {
-        return deliveryRecordRepository
-                .findByContractIdOrderByDeliveryDateAsc(contractid);
-    }
-
-    @Override
-    public DeliveryRecord getLatestDeliveryRecord(Long contractid) {
-        return deliveryRecordRepository
-                .findFirstByContractIdOrderByDeliveryDateDesc(contractid)
-                .orElse(null);
-    }
-
-    @Override
-    public DeliveryRecord getRecordById(Long id) {
+    public DeliveryRecord getDeliveryRecordById(Long id) {
         return deliveryRecordRepository.findById(id).orElse(null);
-    } 
-    
+    }
+
+    @Override
+    public List<DeliveryRecord> getAllDeliveryRecords() {
+        return deliveryRecordRepository.findAll();
+    }
+
+    @Override
+    public void deleteDeliveryRecord(Long id) {
+        deliveryRecordRepository.deleteById(id);
+    }
 }

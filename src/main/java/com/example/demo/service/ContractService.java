@@ -5,6 +5,9 @@ import java.util.List;
 
 public interface ContractService {
 
+    void updateContractStatus(Long contractId);
+
+
     Contract createContract(Contract contract);
 
     Contract updateContract(Long id, Contract contract);
