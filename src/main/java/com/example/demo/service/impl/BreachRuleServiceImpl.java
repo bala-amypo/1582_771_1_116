@@ -3,8 +3,8 @@ package com.example.demo.service.impl;
 import java.util.List;
 
 
-import com.example.demo.Repository.ContractRepository;
-import com.example.demo.Repository.DeliveryRecordRepository;
+import com.example.demo.repository.ContractRepository;
+import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
 

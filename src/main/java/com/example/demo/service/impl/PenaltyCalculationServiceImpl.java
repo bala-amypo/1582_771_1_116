@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.example.demo.Repository.BreachRuleRepository;
-import com.example.demo.Repository.ContractRepository;
-import com.example.demo.Repository.DeliveryRecordRepository;
-import com.example.demo.Repository.PenaltyCalculationRepository;
-import com.example.demo.entity.BreachRule;
+import com.example.demo.repository.BreachRuleRepository;
+import com.example.demo.repository.ContractRepository;
+import com.example.demo.repository.DeliveryRecordRepository;
+import com.example.demo.repository.PenaltyCalculationRepository;
+import com.example.demo.rntity.BreachRule;
 import com.example.demo.entity.Contract;
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.entity.PenaltyCalculation;

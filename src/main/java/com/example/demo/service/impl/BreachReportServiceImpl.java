@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 
-import com.example.demo.Repository.BreachRuleRepository;
+import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.entity.BreachRule;
 import com.example.demo.service.BreachRuleService;
 
