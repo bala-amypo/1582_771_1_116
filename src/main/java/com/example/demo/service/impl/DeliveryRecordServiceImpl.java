@@ -1,38 +1,26 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.entity.DeliveryRecord;
-import com.example.demo.repository.DeliveryRecordRepository;
-import com.example.demo.service.DeliveryRecordService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final DeliveryRecordRepository repository;
+    private final DeliveryRecordRepository deliveryRecordRepository;
+    private final ContractRepository contractRepository;
 
-    public DeliveryRecordServiceImpl(DeliveryRecordRepository repository) {
-        this.repository = repository;
+    public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository,
+                                     ContractRepository contractRepository) {
+        this.deliveryRecordRepository = deliveryRecordRepository;
+        this.contractRepository = contractRepository;
     }
 
     @Override
-    public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
-        return repository.save(record);
+    public List<DeliveryRecord> getDeliveriesByContractId(Long contractId) {
+        return contractRepository.findById(contractId)
+                .map(deliveryRecordRepository::findByContract)
+                .orElse(List.of());   // ✅ NO EXCEPTION
     }
 
     @Override
-    public DeliveryRecord getRecordById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId) {
-        return repository.findByContractId(contractId);
-    }
-
-    @Override
-    public DeliveryRecord getLatestDeliveryRecord(Long contractId) {
-        return repository.findTopByContractIdOrderByActualDeliveryDateDesc(contractId);
+    public DeliveryRecord getLatestDelivery(Long contractId) {
+        return contractRepository.findById(contractId)
+                .map(deliveryRecordRepository::findTopByContractOrderByDeliveryDateDesc)
+                .orElse(null);        // ✅ NO EXCEPTION
     }
 }
