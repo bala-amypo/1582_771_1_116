@@ -11,5 +11,7 @@ public interface ContractService {
 
     List<Contract> getAllContracts();
 
+    Contract updateContract(Long id, Contract contract);   
+
     void updateContractStatus(Long id);
 }

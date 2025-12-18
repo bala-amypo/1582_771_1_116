@@ -21,10 +21,11 @@ public class ContractController {
         return contractService.createContract(contract);
     }
 
-    @PutMapping("/{id}")
-    public Contract update(@PathVariable Long id, @RequestBody Contract contract) {
-        return contractService.updateContract(id, contract);
+   @PutMapping("/{id}/status")
+    public void updateContractStatus(@PathVariable Long id) {
+    contractService.updateContractStatus(id);
     }
+
 
     @GetMapping("/{id}")
     public Contract getById(@PathVariable Long id) {
