@@ -6,7 +6,9 @@ import com.example.demo.service.DeliveryRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import jakarta.transaction.Transactional;
 
+@Transactional
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 

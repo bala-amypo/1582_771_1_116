@@ -5,10 +5,10 @@ import com.example.demo.repository.PenaltyCalculationRepository;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
 import jakarta.transaction.Transactional;
 
 @Transactional
-
 @Service
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 

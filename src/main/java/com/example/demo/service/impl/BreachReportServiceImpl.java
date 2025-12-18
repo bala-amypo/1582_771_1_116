@@ -8,7 +8,6 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 @Transactional
-
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 

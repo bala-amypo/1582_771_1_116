@@ -6,10 +6,10 @@ import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import jakarta.transaction.Transactional;
 
 @Transactional
-
 @Service
 public class UserServiceImpl implements UserService {
 
