@@ -1,12 +1,12 @@
-package com.example.portal.service.impl;
+package com.example.demo.service.impl;
 
 import java.util.List;
 
 
-import com.example.portal.Repository.ContractRepository;
-import com.example.portal.Repository.DeliveryRecordRepository;
-import com.example.portal.entity.Contract;
-import com.example.portal.service.ContractService;
+import com.example.demo.Repository.ContractRepository;
+import com.example.demo.Repository.DeliveryRecordRepository;
+import com.example.demo.entity.Contract;
+import com.example.demo.service.ContractService;
 
 public class ContractServiceImpl implements ContractService {
 

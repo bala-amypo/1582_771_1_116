@@ -1,18 +1,18 @@
-package com.example.portal.service.impl;
+package com.example.demo.service.impl;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.example.portal.Repository.BreachRuleRepository;
-import com.example.portal.Repository.ContractRepository;
-import com.example.portal.Repository.DeliveryRecordRepository;
-import com.example.portal.Repository.PenaltyCalculationRepository;
-import com.example.portal.entity.BreachRule;
-import com.example.portal.entity.Contract;
-import com.example.portal.entity.DeliveryRecord;
-import com.example.portal.entity.PenaltyCalculation;
-import com.example.portal.service.PenaltyCalculationService;
+import com.example.demo.Repository.BreachRuleRepository;
+import com.example.demo.Repository.ContractRepository;
+import com.example.demo.Repository.DeliveryRecordRepository;
+import com.example.demo.Repository.PenaltyCalculationRepository;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.entity.Contract;
+import com.example.demo.entity.DeliveryRecord;
+import com.example.demo.entity.PenaltyCalculation;
+import com.example.demo.service.PenaltyCalculationService;
 
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 

@@ -1,10 +1,10 @@
-package com.example.portal.service.impl;
+package com.example.demo.service.impl;
 
 import java.util.List;
 
-import com.example.portal.Repository.BreachRuleRepository;
-import com.example.portal.entity.BreachRule;
-import com.example.portal.service.BreachRuleService;
+import com.example.demo.Repository.BreachRuleRepository;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.service.BreachRuleService;
 
 public class BreachRuleServiceImpl implements BreachRuleService {
 

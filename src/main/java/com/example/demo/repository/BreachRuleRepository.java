@@ -1,6 +1,6 @@
-package com.example.portal.Repository;
+package com.example.demo.repository;
 
-import com.example.portal.entity.BreachRule;
+import com.example.demo.entity.BreachRule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
