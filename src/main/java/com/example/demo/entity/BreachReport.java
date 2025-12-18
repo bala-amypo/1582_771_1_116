@@ -20,8 +20,11 @@ public class BreachReport {
     }
 
 
-    public BreachReport(Contract contract, Timestamp reportGeneratedAt, int daysDelayed, BigDecimal penaltyAmount,
-            String remarks) {
+    BreachReport report = new BreachReport(contract  LocalDateTime.now(), 
+                                       daysDelayed, 
+                                       penalty, 
+                                       appliedRule.getName());
+ {
         this.contract = contract;
         this.reportGeneratedAt = reportGeneratedAt;
         this.daysDelayed = daysDelayed;
