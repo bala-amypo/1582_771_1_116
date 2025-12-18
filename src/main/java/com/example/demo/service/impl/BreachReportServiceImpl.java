@@ -1,53 +1,48 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.BreachReport;
-import com.example.demo.entity.BreachRule;
-import com.example.demo.entity.Contract;
-import com.example.demo.repository.BreachReportRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 
-    private final BreachReportRepository breachReportRepository;
+    private final BreachReportRepository reportRepo;
+    private final ContractRepository contractRepo;
+    private final PenaltyCalculationRepository penaltyRepo;
 
-    public BreachReportServiceImpl(BreachReportRepository breachReportRepository) {
-        this.breachReportRepository = breachReportRepository;
+    public BreachReportServiceImpl(
+            BreachReportRepository reportRepo,
+            ContractRepository contractRepo,
+            PenaltyCalculationRepository penaltyRepo) {
+        this.reportRepo = reportRepo;
+        this.contractRepo = contractRepo;
+        this.penaltyRepo = penaltyRepo;
     }
 
-    @Override
-    public BreachReport createReport(
-            Contract contract,
-            int daysDelayed,
-            BigDecimal penalty,
-            BreachRule appliedRule
-    ) {
+    public BreachReport generateReport(Long contractId) {
 
-        // ✅ Correct constructor usage (NO Long, Long)
-        BreachReport report = new BreachReport(
-                contract,
-                LocalDateTime.now(),
-                daysDelayed,
-                penalty,
-                appliedRule.getName()
-        );
+        Contract contract = contractRepo.findById(contractId).orElse(null);
+        PenaltyCalculation pc =
+                penaltyRepo.findByContract(contract).stream().findFirst().orElse(null);
 
-        return breachReportRepository.save(report);
+        BreachReport report = new BreachReport();
+        report.setContract(contract);
+
+        if (pc != null) {
+            report.setDaysDelayed(pc.getDaysDelayed());
+            report.setRuleName(pc.getAppliedRule().getName());
+            report.setSummary("Penalty calculated successfully");
+        } else {
+            report.setSummary("No penalty applied");
+        }
+
+        return reportRepo.save(report);
     }
 
-    @Override
-    public BreachReport getReportById(Long id) {
-        return breachReportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Breach report not found"));
-    }
-
-    @Override
-    public List<BreachReport> getAllReports() {
-        return breachReportRepository.findAll();
+    public java.util.List<BreachReport> getReportsForContract(Long contractId) {
+        return reportRepo.findByContract(
+                contractRepo.findById(contractId).orElse(null));
     }
 }

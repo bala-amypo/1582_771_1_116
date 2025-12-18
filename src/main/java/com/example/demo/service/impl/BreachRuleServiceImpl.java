@@ -1,67 +1,20 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.repository.BreachRuleRepository;
+import com.example.demo.service.BreachRuleService;
+import org.springframework.stereotype.Service;
 
+@Service
+public class BreachRuleServiceImpl implements BreachRuleService {
 
-import com.example.demo.repository.ContractRepository;
-import com.example.demo.repository.DeliveryRecordRepository;
-import com.example.demo.entity.Contract;
-import com.example.demo.service.ContractService;
+    private final BreachRuleRepository repository;
 
-public class ContractServiceImpl implements ContractService {
-
-    private final ContractRepository contractRepository;
-    private final DeliveryRecordRepository deliveryRecordRepository;
-
-    public ContractServiceImpl(ContractRepository contractRepository,
-                               DeliveryRecordRepository deliveryRecordRepository) {
-        this.contractRepository = contractRepository;
-        this.deliveryRecordRepository = deliveryRecordRepository;
+    public BreachRuleServiceImpl(BreachRuleRepository repository) {
+        this.repository = repository;
     }
 
-    @Override
-    public Contract createContract(Contract contract) {
-        return contractRepository.save(contract);
+    public BreachRule saveRule(BreachRule rule) {
+        return repository.save(rule);
     }
-
-    @Override
-    public Contract updateContract(Long id, Contract contract) {
-        Contract existing = contractRepository.findById(id).orElse(null);
-        if (existing == null) return null;
-
-        existing.setTitle(contract.getTitle());
-        existing.setCounterpartyName(contract.getCounterpartyName());
-        existing.setAgreedDeliveryDate(contract.getAgreedDeliveryDate());
-        existing.setBaseContractValue(contract.getBaseContractValue());
-
-        return contractRepository.save(existing);
-    }
-
-    @Override
-    public Contract getContractById(Long id) {
-        return contractRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Contract> getAllContracts() {
-        return contractRepository.findAll();
-    }
-
-    @Override
-    public void updateContractStatus(Long contractid) {
-        Contract contract = getContractById(contractid);
-        if (contract == null) return;
-
-       deliveryRecordRepository
-    .findFirstByContractIdOrderByDeliveryDateDesc(contractid)
-    .ifPresent(record -> {
-        if (record.getDeliveryDate().after(contract.getAgreedDeliveryDate())) {
-            contract.setStatus("BREACHED");
-        } else {
-            contract.setStatus("COMPLETED");
-        }
-        contractRepository.save(contract);
-    });
-
-    }
-} 
+}

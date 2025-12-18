@@ -5,7 +5,6 @@ import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.DeliveryRecordService;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,38 +12,21 @@ import java.util.List;
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final DeliveryRecordRepository deliveryRecordRepository;
-    private final ContractRepository contractRepository;
+    private final DeliveryRecordRepository deliveryRepo;
+    private final ContractRepository contractRepo;
 
-    public DeliveryRecordServiceImpl(
-            DeliveryRecordRepository deliveryRecordRepository,
-            ContractRepository contractRepository) {
-        this.deliveryRecordRepository = deliveryRecordRepository;
-        this.contractRepository = contractRepository;
+    public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRepo,
+                                     ContractRepository contractRepo) {
+        this.deliveryRepo = deliveryRepo;
+        this.contractRepo = contractRepo;
     }
 
-    @Override
-    public DeliveryRecord createDeliveryRecord(DeliveryRecord deliveryRecord) {
-        return deliveryRecordRepository.save(deliveryRecord);
+    public DeliveryRecord saveRecord(DeliveryRecord record) {
+        return deliveryRepo.save(record);
     }
 
-    @Override
-    public DeliveryRecord getRecordById(Long id) {
-        return deliveryRecordRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId) {
-        Contract contract = contractRepository.findById(contractId).orElse(null);
-        if (contract == null) return List.of();
-        return deliveryRecordRepository.findByContract(contract);
-    }
-
-    @Override
-    public DeliveryRecord getLatestDeliveryRecord(Long contractId) {
-        Contract contract = contractRepository.findById(contractId).orElse(null);
-        if (contract == null) return null;
-        return deliveryRecordRepository
-                .findTopByContractOrderByDeliveryDateDesc(contract);
+    public List<DeliveryRecord> getRecordsForContract(Long contractId) {
+        Contract contract = contractRepo.findById(contractId).orElse(null);
+        return deliveryRepo.findByContract(contract);
     }
 }
