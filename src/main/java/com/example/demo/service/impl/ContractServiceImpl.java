@@ -5,6 +5,8 @@ import com.example.demo.repository.ContractRepository;
 import com.example.demo.service.ContractService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContractServiceImpl implements ContractService {
 
@@ -18,7 +20,11 @@ public class ContractServiceImpl implements ContractService {
         return repository.save(contract);
     }
 
-    public Contract getContract(Long id) {
+    public Contract getContractById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public List<Contract> getAllContracts() {
+        return repository.findAll();
     }
 }

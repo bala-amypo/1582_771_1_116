@@ -5,6 +5,8 @@ import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 
@@ -41,8 +43,16 @@ public class BreachReportServiceImpl implements BreachReportService {
         return reportRepo.save(report);
     }
 
-    public java.util.List<BreachReport> getReportsForContract(Long contractId) {
+    public BreachReport getReportById(Long id) {
+        return reportRepo.findById(id).orElse(null);
+    }
+
+    public List<BreachReport> getReportsForContract(Long contractId) {
         return reportRepo.findByContract(
                 contractRepo.findById(contractId).orElse(null));
+    }
+
+    public List<BreachReport> getAllReports() {
+        return reportRepo.findAll();
     }
 }

@@ -12,13 +12,19 @@ import java.util.List;
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
     private final PenaltyCalculationRepository repository;
-    private final ContractRepository contractRepository;
+    private final ContractRepository contractRepo;
 
     public PenaltyCalculationServiceImpl(
             PenaltyCalculationRepository repository,
-            ContractRepository contractRepository) {
+            ContractRepository contractRepo) {
         this.repository = repository;
-        this.contractRepository = contractRepository;
+        this.contractRepo = contractRepo;
+    }
+
+    public PenaltyCalculation calculatePenalty(Long contractId) {
+        return repository.findByContract(
+                contractRepo.findById(contractId).orElse(null))
+                .stream().findFirst().orElse(null);
     }
 
     public PenaltyCalculation getPenaltyById(Long id) {
@@ -27,7 +33,7 @@ public class PenaltyCalculationServiceImpl implements PenaltyCalculationService 
 
     public List<PenaltyCalculation> getPenaltiesForContract(Long contractId) {
         return repository.findByContract(
-                contractRepository.findById(contractId).orElse(null));
+                contractRepo.findById(contractId).orElse(null));
     }
 
     public List<PenaltyCalculation> getAllPenalties() {
