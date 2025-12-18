@@ -1,8 +1,8 @@
-package com.example.portal.service;
+package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.portal.entity.BreachRule;
+import com.example.demo.entity.BreachRule;
 
 public interface BreachRuleService {
 

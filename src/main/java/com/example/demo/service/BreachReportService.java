@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.portal.entity.BreachReport;
+import com.example.demo.entity.BreachReport;
 
 public interface BreachReportService {
     BreachReport generateReport (Long contractId);
