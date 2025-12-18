@@ -4,7 +4,6 @@ import com.example.demo.entity.BreachRule;
 import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -16,15 +15,11 @@ public class BreachRuleServiceImpl implements BreachRuleService {
         this.repository = repository;
     }
 
-    public BreachRule saveRule(BreachRule rule) {
+    public BreachRule create(BreachRule rule) {
         return repository.save(rule);
     }
 
-    public BreachRule getRuleById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    public List<BreachRule> getAllRules() {
+    public List<BreachRule> getAll() {
         return repository.findAll();
     }
 }
