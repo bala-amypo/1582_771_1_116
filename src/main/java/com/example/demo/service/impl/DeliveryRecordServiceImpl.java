@@ -10,29 +10,29 @@ import java.util.List;
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final DeliveryRecordRepository deliveryRecordRepository;
+    private final DeliveryRecordRepository repository;
 
-    public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository) {
-        this.deliveryRecordRepository = deliveryRecordRepository;
+    public DeliveryRecordServiceImpl(DeliveryRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public DeliveryRecord saveDeliveryRecord(DeliveryRecord record) {
-        return deliveryRecordRepository.save(record);
+    public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
+        return repository.save(record);
     }
 
     @Override
-    public DeliveryRecord getDeliveryRecordById(Long id) {
-        return deliveryRecordRepository.findById(id).orElse(null);
+    public DeliveryRecord getRecordById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<DeliveryRecord> getAllDeliveryRecords() {
-        return deliveryRecordRepository.findAll();
+    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId) {
+        return repository.findByContractId(contractId);
     }
 
     @Override
-    public void deleteDeliveryRecord(Long id) {
-        deliveryRecordRepository.deleteById(id);
+    public DeliveryRecord getLatestDeliveryRecord(Long contractId) {
+        return repository.findTopByContractIdOrderByActualDeliveryDateDesc(contractId);
     }
 }

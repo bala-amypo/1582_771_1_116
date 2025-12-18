@@ -1,21 +1,16 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.service.DeliveryRecordService;
+import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/delivery-records")
+@RequestMapping("/delivery-records")
 public class DeliveryRecordController {
-     private final DeliveryRecordService deliveryRecordService;
+
+    private final DeliveryRecordService deliveryRecordService;
 
     public DeliveryRecordController(DeliveryRecordService deliveryRecordService) {
         this.deliveryRecordService = deliveryRecordService;
@@ -31,15 +26,13 @@ public class DeliveryRecordController {
         return deliveryRecordService.getRecordById(id);
     }
 
-    @GetMapping("/contract/{contractid}")
-    public List<DeliveryRecord> getByContract(@PathVariable Long contractid) {
-        return deliveryRecordService.getDeliveryRecordsForContract(contractid);
+    @GetMapping("/contract/{contractId}")
+    public List<DeliveryRecord> getByContract(@PathVariable Long contractId) {
+        return deliveryRecordService.getDeliveryRecordsForContract(contractId);
     }
 
-    @GetMapping("/contract/{contractid}/latest")
-    public DeliveryRecord getLatest(@PathVariable Long contractid) {
-        return deliveryRecordService.getLatestDeliveryRecord(contractid);
+    @GetMapping("/latest/{contractId}")
+    public DeliveryRecord getLatest(@PathVariable Long contractId) {
+        return deliveryRecordService.getLatestDeliveryRecord(contractId);
     }
 }
-    
-
