@@ -1,10 +1,5 @@
 package com.example.demo.entity;
-// JPA annotations
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+
 
 // For JSON property mapping (if field names differ from JSON keys)
 import com.fasterxml.jackson.annotation.JsonProperty;
