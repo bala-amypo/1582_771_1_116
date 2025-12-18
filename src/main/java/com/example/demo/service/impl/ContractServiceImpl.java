@@ -31,7 +31,7 @@ public class ContractServiceImpl implements ContractService {
         return repository.findAll();
     }
 
-   @Override
+    @Override
     public Contract updateContract(Long id, Contract updatedContract) {
     Contract existing = repository.findById(id).orElse(null);
     if (existing != null) {
@@ -41,6 +41,6 @@ public class ContractServiceImpl implements ContractService {
         return repository.save(existing);
     }
     return null;
-}
+ }
 
 }
