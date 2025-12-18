@@ -1,96 +1,94 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 @Entity
 public class BreachReport {
-    @Id @GeneratedValue
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id")
     private Contract contract;
-    private Timestamp reportGeneratedAt;
+
+    private LocalDateTime timestamp;
+
     private int daysDelayed;
-    private BigDecimal penaltyAmount;
-    private String remarks;
-    public BreachReport(){
 
+    private BigDecimal penalty;
+
+    private String ruleName;
+
+    // ✅ No-args constructor (REQUIRED by JPA)
+    public BreachReport() {
     }
 
-
-    BreachReport report = new BreachReport(contract  LocalDateTime.now(), 
-                                       daysDelayed, 
-                                       penalty, 
-                                       appliedRule.getName());
- {
+    // ✅ Correct constructor (matches service usage)
+    public BreachReport(
+            Contract contract,
+            LocalDateTime timestamp,
+            int daysDelayed,
+            BigDecimal penalty,
+            String ruleName
+    ) {
         this.contract = contract;
-        this.reportGeneratedAt = reportGeneratedAt;
+        this.timestamp = timestamp;
         this.daysDelayed = daysDelayed;
-        this.penaltyAmount = penaltyAmount;
-        this.remarks = remarks;
+        this.penalty = penalty;
+        this.ruleName = ruleName;
     }
 
+    // ---------- Getters & Setters ----------
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
-
-    public void setReportGeneratedAt(Timestamp reportGeneratedAt) {
-        this.reportGeneratedAt = reportGeneratedAt;
-    }
-
-
-    public void setDaysDelayed(int daysDelayed) {
-        this.daysDelayed = daysDelayed;
-    }
-
-
-    public void setPenaltyAmount(BigDecimal penaltyAmount) {
-        this.penaltyAmount = penaltyAmount;
-    }
-
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Contract getContract() {
         return contract;
     }
 
-
-    public Timestamp getReportGeneratedAt() {
-        return reportGeneratedAt;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public int getDaysDelayed() {
         return daysDelayed;
     }
 
-
-    public BigDecimal getPenaltyAmount() {
-        return penaltyAmount;
+    public void setDaysDelayed(int daysDelayed) {
+        this.daysDelayed = daysDelayed;
     }
 
-
-    public String getRemarks() {
-        return remarks;
+    public BigDecimal getPenalty() {
+        return penalty;
     }
 
-    
+    public void setPenalty(BigDecimal penalty) {
+        this.penalty = penalty;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
 }
