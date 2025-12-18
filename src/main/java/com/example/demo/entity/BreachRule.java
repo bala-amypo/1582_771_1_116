@@ -1,4 +1,4 @@
-package com.example.portal.entity;
+package com.example.demo.entity;
 
 import java.math.BigDecimal;
 

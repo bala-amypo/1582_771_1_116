@@ -1,4 +1,4 @@
-package com.example.portal.controller;
+package com.example.demo.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.portal.entity.PenaltyCalculation;
-import com.example.portal.service.PenaltyCalculationService;
+import com.example.demo.entity.PenaltyCalculation;
+import com.example.demo.service.PenaltyCalculationService;
 @RestController
 @RequestMapping("/api/penalties")
 public class PenaltyCalculationController {

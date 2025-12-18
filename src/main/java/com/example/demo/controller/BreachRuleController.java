@@ -1,4 +1,4 @@
-package com.example.portal.controller;
+package com.example.demo.controller;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.portal.entity.BreachRule;
-import com.example.portal.service.BreachRuleService;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.service.BreachRuleService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
