@@ -4,7 +4,7 @@ import com.example.demo.entity.BreachRule;
 import com.example.demo.service.BreachRuleService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/breach-rules")
 public class BreachRuleController {

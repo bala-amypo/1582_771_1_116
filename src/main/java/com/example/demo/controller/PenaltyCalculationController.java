@@ -4,7 +4,7 @@ import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/penalty-calculations")
 public class PenaltyCalculationController {

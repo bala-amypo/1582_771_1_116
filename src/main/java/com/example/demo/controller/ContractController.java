@@ -5,7 +5,7 @@ import com.example.demo.service.ContractService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/contracts")
 public class ContractController {
