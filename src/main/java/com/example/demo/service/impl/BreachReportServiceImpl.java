@@ -1,62 +1,36 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.BreachReport;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.BreachReportRepository;
+import com.example.demo.service.BreachReportService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-import com.example.demo.repository.BreachRuleRepository;
-import com.example.demo.entity.BreachRule;
-import com.example.demo.service.BreachRuleService;
+@Service
+public class BreachReportServiceImpl implements BreachReportService {
 
-public class BreachRuleServiceImpl implements BreachRuleService {
+    private final BreachReportRepository breachReportRepository;
 
-    private final BreachRuleRepository breachRuleRepository;
-
-    public BreachRuleServiceImpl(BreachRuleRepository breachRuleRepository) {
-        this.breachRuleRepository = breachRuleRepository;
+    public BreachReportServiceImpl(BreachReportRepository breachReportRepository) {
+        this.breachReportRepository = breachReportRepository;
     }
 
     @Override
-    public BreachRule createRule(BreachRule rule) {
-        return breachRuleRepository.save(rule);
+    public BreachReport createBreachReport(BreachReport breachReport) {
+        return breachReportRepository.save(breachReport);
     }
 
     @Override
-    public BreachRule updateRule(Long id, BreachRule rule) {
-        BreachRule existing = breachRuleRepository.findById(id).orElse(null);
-        if (existing == null) return null;
-
-        existing.setRuleName(rule.getRuleName());
-        existing.setPenaltyPerDay(rule.getPenaltyPerDay());
-        existing.setMaxPenaltyPercentage(rule.getMaxPenaltyPercentage());
-        existing.setActive(rule.getActive());
-        existing.setIsDefaultRule(rule.getIsDefaultRule());
-
-        return breachRuleRepository.save(existing);
+    public BreachReport getBreachReportById(Long id) {
+        return breachReportRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("BreachReport not found with id: " + id));
     }
 
     @Override
-    public List<BreachRule> getAllRules() {
-        return breachRuleRepository.findAll();
+    public List<BreachReport> getAllBreachReports() {
+        return breachReportRepository.findAll();
     }
-
-    @Override
-    public BreachRule getRuleById(Long id) {
-        return breachRuleRepository.findById(id).orElse(null);
-    }
-
-    @Override
-public void deactivateRule(Long id) {
-    BreachRule rule = getRuleById(id);
-    if (rule != null) {
-        rule.setActive(false);
-        breachRuleRepository.save(rule);
-    }
-}
-
-@Override
-public BreachRule getActiveDefaultOrFirst() {
-    return breachRuleRepository
-            .findFirstByActiveTrueOrderByIsDefaultRuleDesc()
-            .orElse(null);
-}
-
 }

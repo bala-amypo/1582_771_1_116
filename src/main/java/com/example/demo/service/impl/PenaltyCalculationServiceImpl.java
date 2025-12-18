@@ -8,7 +8,7 @@ import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.repository.PenaltyCalculationRepository;
-import com.example.demo.rntity.BreachRule;
+import com.example.demo.entity.BreachRule;
 import com.example.demo.entity.Contract;
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.entity.PenaltyCalculation;
