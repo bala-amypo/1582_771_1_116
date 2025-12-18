@@ -7,27 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/delivery-records")
+@RequestMapping("/api/delivery-records")
 public class DeliveryRecordController {
 
-    private final DeliveryRecordService deliveryRecordService;
+    private final DeliveryRecordService service;
 
-    public DeliveryRecordController(DeliveryRecordService deliveryRecordService) {
-        this.deliveryRecordService = deliveryRecordService;
+    public DeliveryRecordController(DeliveryRecordService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public DeliveryRecord addRecord(@RequestBody DeliveryRecord record) {
-        return deliveryRecordService.saveRecord(record);
+    public DeliveryRecord create(@RequestBody DeliveryRecord record) {
+        return service.create(record);
     }
 
-    @GetMapping("/{id}")
-    public DeliveryRecord getRecord(@PathVariable Long id) {
-        return deliveryRecordService.getRecordById(id);
-    }
-
-    @GetMapping("/contract/{contractId}")
-    public List<DeliveryRecord> getRecordsForContract(@PathVariable Long contractId) {
-        return deliveryRecordService.getRecordsForContract(contractId);
+    @GetMapping("/contract/{id}")
+    public List<DeliveryRecord> getByContract(@PathVariable Long id) {
+        return service.getByContract(id);
     }
 }
