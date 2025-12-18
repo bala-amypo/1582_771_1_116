@@ -1,32 +1,33 @@
 package com.example.demo.controller;
 
-import java.util.Map;
-
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import java.util.List;
 
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
-    private final UserService userService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    private final UserService service;
+
+    public AuthController(UserService service) {
+        this.service = service;
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody Map<String, String> body) {
-        return userService.registerUser(
-                body.get("email"),
-                body.get("password")
-        );
+    public User register(@RequestBody User user) {
+        return service.register(user);
     }
 
     @PostMapping("/login")
-    public String login() {
-        return "Login successful";
+    public User login(@RequestBody User user) {
+        return service.login(user.getEmail(), user.getPassword());
     }
-    
+
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return service.getAllUsers();
+    }
 }
