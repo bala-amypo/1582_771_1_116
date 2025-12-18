@@ -1,44 +1,27 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.BreachReport;
-import com.example.demo.entity.Contract;
-import com.example.demo.repository.BreachReportRepository;
-import com.example.demo.repository.ContractRepository;
+import com.example.demo.service.BreachReportService;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/breach-reports")
 public class BreachReportController {
 
-    private final BreachReportRepository breachReportRepository;
-    private final ContractRepository contractRepository;
+    private final BreachReportService service;
 
-    public BreachReportController(
-            BreachReportRepository breachReportRepository,
-            ContractRepository contractRepository) {
-        this.breachReportRepository = breachReportRepository;
-        this.contractRepository = contractRepository;
+    public BreachReportController(BreachReportService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public BreachReport createReport(
-            @RequestParam Long contractId,
-            @RequestParam int daysDelayed,
-            @RequestParam String ruleName,
-            @RequestParam String summary) {
+    public BreachReport create(@RequestBody BreachReport report) {
+        return service.save(report);
+    }
 
-        Contract contract = contractRepository.findById(contractId).orElse(null);
-
-        if (contract == null) {
-            return null; // NO exception as requested
-        }
-
-        BreachReport report = new BreachReport();
-        report.setContract(contract);
-        report.setDaysDelayed(daysDelayed);
-        report.setRuleName(ruleName);
-        report.setSummary(summary);
-
-        return breachReportRepository.save(report);
+    @GetMapping("/contract/{id}")
+    public List<BreachReport> getByContract(@PathVariable Long id) {
+        return service.getByContract(id);
     }
 }

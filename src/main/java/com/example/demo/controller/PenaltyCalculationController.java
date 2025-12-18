@@ -1,23 +1,27 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
-@RequestMapping("/penalties")
+@RequestMapping("/api/penalty-calculations")
 public class PenaltyCalculationController {
 
-    private final PenaltyCalculationService penaltyService;
+    private final PenaltyCalculationService service;
 
-    public PenaltyCalculationController(PenaltyCalculationService penaltyService) {
-        this.penaltyService = penaltyService;
+    public PenaltyCalculationController(PenaltyCalculationService service) {
+        this.service = service;
     }
 
-    @PostMapping("/{contractId}")
-    public String calculatePenalty(@PathVariable Long contractId) {
+    @PostMapping
+    public PenaltyCalculation create(@RequestBody PenaltyCalculation calculation) {
+        return service.save(calculation);
+    }
 
-        penaltyService.calculatePenalty(contractId);
-
-        return "Penalty calculated successfully";
+    @GetMapping("/contract/{id}")
+    public List<PenaltyCalculation> getByContract(@PathVariable Long id) {
+        return service.getByContract(id);
     }
 }
