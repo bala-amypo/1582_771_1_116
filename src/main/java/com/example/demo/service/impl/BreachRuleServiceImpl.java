@@ -5,6 +5,9 @@ import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import jakarta.transaction.Transactional;
+
+@Transactional
 
 @Service
 public class BreachRuleServiceImpl implements BreachRuleService {

@@ -5,6 +5,9 @@ import com.example.demo.repository.BreachReportRepository;
 import com.example.demo.service.BreachReportService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import jakarta.transaction.Transactional;
+
+@Transactional
 
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
