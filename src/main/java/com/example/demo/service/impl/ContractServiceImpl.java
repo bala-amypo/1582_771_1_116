@@ -33,14 +33,22 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Contract updateContract(Long id, Contract updatedContract) {
-    Contract existing = repository.findById(id).orElse(null);
-    if (existing != null) {
-        existing.setBaseContractValue(updatedContract.getBaseContractValue());
-        existing.setAgreedDeliveryDate(updatedContract.getAgreedDeliveryDate());
-        existing.setStatus(updatedContract.getStatus());
-        return repository.save(existing);
+        Contract existing = repository.findById(id).orElse(null);
+        if (existing != null) {
+            existing.setBaseContractValue(updatedContract.getBaseContractValue());
+            existing.setAgreedDeliveryDate(updatedContract.getAgreedDeliveryDate());
+            existing.setStatus(updatedContract.getStatus());
+            return repository.save(existing);
+        }
+        return null;
     }
-    return null;
- }
 
+    @Override
+    public void updateContractStatus(Long id) {
+        Contract contract = repository.findById(id).orElse(null);
+        if (contract != null) {
+            contract.setStatus("UPDATED");
+            repository.save(contract);
+        }
+    }
 }
