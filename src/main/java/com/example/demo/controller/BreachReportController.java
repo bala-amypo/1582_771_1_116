@@ -1,38 +1,44 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.BreachReport;
-import com.example.demo.service.BreachReportService;
+import com.example.demo.entity.Contract;
+import com.example.demo.repository.BreachReportRepository;
+import com.example.demo.repository.ContractRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/breach-reports")
+@RequestMapping("/api/breach-reports")
 public class BreachReportController {
 
-    private final BreachReportService breachReportService;
+    private final BreachReportRepository breachReportRepository;
+    private final ContractRepository contractRepository;
 
-    public BreachReportController(BreachReportService breachReportService) {
-        this.breachReportService = breachReportService;
+    public BreachReportController(
+            BreachReportRepository breachReportRepository,
+            ContractRepository contractRepository) {
+        this.breachReportRepository = breachReportRepository;
+        this.contractRepository = contractRepository;
     }
 
-    @PostMapping("/{contractId}")
-    public BreachReport generateReport(@PathVariable Long contractId) {
-        return breachReportService.generateReport(contractId);
-    }
+    @PostMapping
+    public BreachReport createReport(
+            @RequestParam Long contractId,
+            @RequestParam int daysDelayed,
+            @RequestParam String ruleName,
+            @RequestParam String summary) {
 
-    @GetMapping("/{id}")
-    public BreachReport getReportById(@PathVariable Long id) {
-        return breachReportService.getReportById(id);
-    }
+        Contract contract = contractRepository.findById(contractId).orElse(null);
 
-    @GetMapping("/contract/{contractId}")
-    public List<BreachReport> getReportsForContract(@PathVariable Long contractId) {
-        return breachReportService.getReportsForContract(contractId);
-    }
+        if (contract == null) {
+            return null; // NO exception as requested
+        }
 
-    @GetMapping
-    public List<BreachReport> getAllReports() {
-        return breachReportService.getAllReports();
+        BreachReport report = new BreachReport();
+        report.setContract(contract);
+        report.setDaysDelayed(daysDelayed);
+        report.setRuleName(ruleName);
+        report.setSummary(summary);
+
+        return breachReportRepository.save(report);
     }
 }
