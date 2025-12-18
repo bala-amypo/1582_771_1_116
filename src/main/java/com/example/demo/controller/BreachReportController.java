@@ -27,8 +27,7 @@ public class BreachReportController {
     }
 
     @GetMapping("/contract/{contractId}")
-    public List<BreachReport> getReportsForContract(
-            @PathVariable Long contractId) {
+    public List<BreachReport> getReportsForContract(@PathVariable Long contractId) {
         return breachReportService.getReportsForContract(contractId);
     }
 

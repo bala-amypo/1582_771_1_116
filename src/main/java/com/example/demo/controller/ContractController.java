@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contracts")
+@RequestMapping("/contracts")
 public class ContractController {
 
     private final ContractService contractService;
@@ -17,29 +17,17 @@ public class ContractController {
     }
 
     @PostMapping
-    public Contract create(@RequestBody Contract contract) {
-        return contractService.createContract(contract);
+    public Contract createContract(@RequestBody Contract contract) {
+        return contractService.saveContract(contract);
     }
 
-    @PutMapping("/{id}")
-    public Contract updateContract(@PathVariable Long id,@RequestBody Contract contract) {
-    return contractService.updateContract(id, contract);
-}
-
-
-
     @GetMapping("/{id}")
-    public Contract getById(@PathVariable Long id) {
+    public Contract getContract(@PathVariable Long id) {
         return contractService.getContractById(id);
     }
 
     @GetMapping
-    public List<Contract> getAll() {
+    public List<Contract> getAllContracts() {
         return contractService.getAllContracts();
-    }
-
-    @PutMapping("/{id}/update-status")
-    public void updateStatus(@PathVariable Long id) {
-        contractService.updateContractStatus(id);
     }
 }

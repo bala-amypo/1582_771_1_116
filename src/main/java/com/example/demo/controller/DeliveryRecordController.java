@@ -17,22 +17,17 @@ public class DeliveryRecordController {
     }
 
     @PostMapping
-    public DeliveryRecord create(@RequestBody DeliveryRecord record) {
-        return deliveryRecordService.createDeliveryRecord(record);
+    public DeliveryRecord addRecord(@RequestBody DeliveryRecord record) {
+        return deliveryRecordService.saveRecord(record);
     }
 
     @GetMapping("/{id}")
-    public DeliveryRecord getById(@PathVariable Long id) {
+    public DeliveryRecord getRecord(@PathVariable Long id) {
         return deliveryRecordService.getRecordById(id);
     }
 
     @GetMapping("/contract/{contractId}")
-    public List<DeliveryRecord> getByContract(@PathVariable Long contractId) {
-        return deliveryRecordService.getDeliveryRecordsForContract(contractId);
-    }
-
-    @GetMapping("/latest/{contractId}")
-    public DeliveryRecord getLatest(@PathVariable Long contractId) {
-        return deliveryRecordService.getLatestDeliveryRecord(contractId);
+    public List<DeliveryRecord> getRecordsForContract(@PathVariable Long contractId) {
+        return deliveryRecordService.getRecordsForContract(contractId);
     }
 }
