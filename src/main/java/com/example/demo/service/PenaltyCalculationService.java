@@ -4,12 +4,6 @@ import com.example.demo.entity.PenaltyCalculation;
 import java.util.List;
 
 public interface PenaltyCalculationService {
-
-    PenaltyCalculation calculatePenalty(Long contractId);
-
-    PenaltyCalculation getPenaltyById(Long id);
-
-    List<PenaltyCalculation> getPenaltiesForContract(Long contractId);
-
-    List<PenaltyCalculation> getAllPenalties();
+    PenaltyCalculation save(PenaltyCalculation calculation);
+    List<PenaltyCalculation> getByContract(Long contractId);
 }

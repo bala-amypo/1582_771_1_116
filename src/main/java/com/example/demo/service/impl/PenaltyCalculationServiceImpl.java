@@ -1,42 +1,27 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.PenaltyCalculation;
-import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.PenaltyCalculationRepository;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
     private final PenaltyCalculationRepository repository;
-    private final ContractRepository contractRepo;
 
-    public PenaltyCalculationServiceImpl(
-            PenaltyCalculationRepository repository,
-            ContractRepository contractRepo) {
+    public PenaltyCalculationServiceImpl(PenaltyCalculationRepository repository) {
         this.repository = repository;
-        this.contractRepo = contractRepo;
     }
 
-    public PenaltyCalculation calculatePenalty(Long contractId) {
-        return repository.findByContract(
-                contractRepo.findById(contractId).orElse(null))
-                .stream().findFirst().orElse(null);
+    @Override
+    public PenaltyCalculation save(PenaltyCalculation calculation) {
+        return repository.save(calculation);
     }
 
-    public PenaltyCalculation getPenaltyById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    public List<PenaltyCalculation> getPenaltiesForContract(Long contractId) {
-        return repository.findByContract(
-                contractRepo.findById(contractId).orElse(null));
-    }
-
-    public List<PenaltyCalculation> getAllPenalties() {
-        return repository.findAll();
+    @Override
+    public List<PenaltyCalculation> getByContract(Long contractId) {
+        return repository.findByContractId(contractId);
     }
 }
