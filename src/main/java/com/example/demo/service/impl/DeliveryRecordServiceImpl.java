@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Repository.DeliveryRecordRepository;
+import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.service.DeliveryRecordService;
 @Service
