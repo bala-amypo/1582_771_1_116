@@ -5,11 +5,7 @@ import java.util.List;
 
 public interface DeliveryRecordService {
 
-    DeliveryRecord createDeliveryRecord(DeliveryRecord record);
+    List<DeliveryRecord> getDeliveriesByContractId(Long contractId);
 
-    DeliveryRecord getRecordById(Long id);
-
-    List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId);
-
-    DeliveryRecord getLatestDeliveryRecord(Long contractId);
+    DeliveryRecord getLatestDelivery(Long contractId);
 }
