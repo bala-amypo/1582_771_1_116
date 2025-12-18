@@ -16,15 +16,15 @@ public class ContractServiceImpl implements ContractService {
         this.repository = repository;
     }
 
-    public Contract saveContract(Contract contract) {
+    public Contract create(Contract contract) {
         return repository.save(contract);
     }
 
-    public Contract getContractById(Long id) {
+    public Contract getById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Contract> getAllContracts() {
+    public List<Contract> getAll() {
         return repository.findAll();
     }
 }
