@@ -1,31 +1,34 @@
 package com.example.demo.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.example.demo.entity.User;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
-    // POST /auth/register
+    // REGISTER
     @PostMapping("/register")
-    public Map<String, String> register(@RequestBody Map<String, String> request) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "User registered successfully");
-        response.put("email", request.get("email"));
-        return response;
+    public ResponseEntity<User> register(@RequestBody User user) {
+
+        // Normally you save to DB, but for Swagger correctness this is enough
+        user.setId(1L);          // mock response
+        user.setActive(true);    // default
+
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    // POST /auth/login
+    // LOGIN
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Map<String, String> request) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Login successful");
-        response.put("email", request.get("email"));
-        response.put("token", "dummy-token");
-        return response;
+    public ResponseEntity<User> login(@RequestBody User user) {
+
+        // Normally validation happens here
+        user.setId(1L);
+        user.setActive(true);
+
+        return ResponseEntity.ok(user);
     }
 }
