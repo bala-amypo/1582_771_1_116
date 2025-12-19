@@ -19,10 +19,18 @@ public class BreachReport {
     private String reportStatus = "GENERATED";
     private LocalDateTime generatedAt;
 
+    public BreachReport() {}
+
     @PrePersist
-    void onCreate() {
+    public void onCreate() {
         generatedAt = LocalDateTime.now();
     }
 
-    public BreachReport() {}
+    public Long getId() { return id; }
+    public Contract getContract() { return contract; }
+    public void setContract(Contract contract) { this.contract = contract; }
+    public Integer getDaysDelayed() { return daysDelayed; }
+    public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
+    public BigDecimal getPenaltyAmount() { return penaltyAmount; }
+    public void setPenaltyAmount(BigDecimal penaltyAmount) { this.penaltyAmount = penaltyAmount; }
 }

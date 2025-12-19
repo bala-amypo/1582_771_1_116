@@ -2,30 +2,33 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/calculations")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class PenaltyCalculationController {
 
     private final PenaltyCalculationService service;
 
-    public PenaltyCalculationController(
-            PenaltyCalculationService service) {
+    public PenaltyCalculationController(PenaltyCalculationService service) {
         this.service = service;
     }
 
-    @PostMapping
-    public PenaltyCalculation create(
-            @RequestBody PenaltyCalculation calculation) {
-        return service.save(calculation);
+    @PostMapping("/contract/{contractId}")
+    public ResponseEntity<PenaltyCalculation> calculate(@PathVariable Long contractId) {
+        return ResponseEntity.ok(service.calculatePenalty(contractId));
     }
 
-    @GetMapping
-    public List<PenaltyCalculation> getAll() {
-        return service.getAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<PenaltyCalculation> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getCalculationById(id));
+    }
+
+    @GetMapping("/contract/{contractId}")
+    public ResponseEntity<List<PenaltyCalculation>> getByContract(@PathVariable Long contractId) {
+        return ResponseEntity.ok(service.getCalculationsForContract(contractId));
     }
 }
