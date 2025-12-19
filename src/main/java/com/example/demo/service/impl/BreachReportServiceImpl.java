@@ -4,22 +4,27 @@ import com.example.demo.entity.BreachReport;
 import com.example.demo.repository.BreachReportRepository;
 import com.example.demo.service.BreachReportService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class BreachReportServiceImpl implements BreachReportService {
+public class BreachReportServiceImpl
+        implements BreachReportService {
 
     private final BreachReportRepository repository;
 
-    public BreachReportServiceImpl(BreachReportRepository repository) {
+    public BreachReportServiceImpl(
+            BreachReportRepository repository) {
         this.repository = repository;
     }
 
+    @Override
     public BreachReport save(BreachReport report) {
         return repository.save(report);
     }
 
-    public List<BreachReport> getByContract(Long contractId) {
-        return repository.findByContractId(contractId);
+    @Override
+    public List<BreachReport> getAll() {
+        return repository.findAll();
     }
 }
