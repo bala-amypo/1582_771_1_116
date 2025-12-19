@@ -4,11 +4,9 @@ import com.example.demo.entity.BreachRule;
 import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
-@Transactional
 @Service
 public class BreachRuleServiceImpl implements BreachRuleService {
 
@@ -18,11 +16,18 @@ public class BreachRuleServiceImpl implements BreachRuleService {
         this.repository = repository;
     }
 
-    public BreachRule create(BreachRule rule) {
+    @Override
+    public BreachRule createRule(BreachRule rule) {
         return repository.save(rule);
     }
 
-    public List<BreachRule> getAll() {
+    @Override
+    public BreachRule getRuleById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<BreachRule> getAllRules() {
         return repository.findAll();
     }
 }

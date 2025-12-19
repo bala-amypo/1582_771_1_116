@@ -11,24 +11,27 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class BreachRuleController {
 
-    private final BreachRuleService breachRuleService;
+    private final BreachRuleService service;
 
-    public BreachRuleController(BreachRuleService breachRuleService) {
-        this.breachRuleService = breachRuleService;
+    public BreachRuleController(BreachRuleService service) {
+        this.service = service;
     }
 
+    // POST – create rule
     @PostMapping
     public BreachRule createRule(@RequestBody BreachRule rule) {
-        return breachRuleService.createRule(rule);
+        return service.createRule(rule);
     }
 
+    // GET by id
     @GetMapping("/{id}")
     public BreachRule getRule(@PathVariable Long id) {
-        return breachRuleService.getRuleById(id);
+        return service.getRuleById(id);
     }
 
+    // GET all
     @GetMapping
     public List<BreachRule> getAllRules() {
-        return breachRuleService.getAllRules();
+        return service.getAllRules();
     }
 }
