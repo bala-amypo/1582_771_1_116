@@ -2,47 +2,32 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "penalty_calculation")
 public class PenaltyCalculation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long contractId;
+    @ManyToOne
+    private Contract contract;
+
+    @ManyToOne
+    private DeliveryRecord deliveryRecord;
+
+    @ManyToOne
+    private BreachRule breachRule;
+
     private Integer daysDelayed;
     private BigDecimal calculatedPenalty;
+    private LocalDateTime calculatedAt;
 
-    public PenaltyCalculation() {
+    @PrePersist
+    void onCreate() {
+        calculatedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
-    }
-
-    public Integer getDaysDelayed() {
-        return daysDelayed;
-    }
-
-    public void setDaysDelayed(Integer daysDelayed) {
-        this.daysDelayed = daysDelayed;
-    }
-
-    public BigDecimal getCalculatedPenalty() {
-        return calculatedPenalty;
-    }
-
-    public void setCalculatedPenalty(BigDecimal calculatedPenalty) {
-        this.calculatedPenalty = calculatedPenalty;
-    }
+    public PenaltyCalculation() {}
 }
