@@ -6,22 +6,46 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/breach-rules")
-@CrossOrigin(origins = "*")
 public class BreachRuleController {
 
-    private final BreachRuleService ruleService;
+    private final BreachRuleService service;
 
-    public BreachRuleController(BreachRuleService ruleService) {
-        this.ruleService = ruleService;
+    public BreachRuleController(BreachRuleService service) {
+        this.service = service;
     }
 
-    // POST /api/breach-rules
     @PostMapping
-    public BreachRule create(@RequestBody BreachRule rule) {
-        return ruleService.createRule(rule);
+    public BreachRule createRule(@RequestBody BreachRule rule) {
+        return service.createRule(rule);
     }
 
-    // PUT /api/breach-rules/{id}
-    @Put
+    @PutMapping("/{id}")
+    public BreachRule updateRule(
+            @PathVariable Long id,
+            @RequestBody BreachRule rule) {
+        return service.updateRule(id, rule);
+    }
+
+    @GetMapping("/{id}")
+    public BreachRule getRuleById(@PathVariable Long id) {
+        return service.getRuleById(id);
+    }
+
+    @GetMapping
+    public List<BreachRule> getAllRules() {
+        return service.getAllRules();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deactivateRule(@PathVariable Long id) {
+        service.deactivateRule(id);
+    }
+
+    @GetMapping("/active")
+    public BreachRule getActiveRule() {
+        return service.getActiveRule();
+    }
+}

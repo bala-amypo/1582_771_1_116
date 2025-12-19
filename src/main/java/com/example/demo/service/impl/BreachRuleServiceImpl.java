@@ -1,62 +1,27 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.*;
-import com.example.demo.repository.*;
-import com.example.demo.service.BreachReportService;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.repository.BreachRuleRepository;
+import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BreachReportServiceImpl implements BreachReportService {
+public class BreachRuleServiceImpl implements BreachRuleService {
 
-    private final ContractRepository contractRepository;
-    private final PenaltyCalculationRepository penaltyRepository;
-    private final BreachReportRepository reportRepository;
+    private final BreachRuleRepository repository;
 
-    public BreachReportServiceImpl(
-            ContractRepository contractRepository,
-            PenaltyCalculationRepository penaltyRepository,
-            BreachReportRepository reportRepository) {
-
-        this.contractRepository = contractRepository;
-        this.penaltyRepository = penaltyRepository;
-        this.reportRepository = reportRepository;
+    public BreachRuleServiceImpl(BreachRuleRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public BreachReport generateReport(Long contractId) {
-
-        Optional<Contract> contractOpt = contractRepository.findById(contractId);
-        if (contractOpt.isEmpty()) return null;
-
-        PenaltyCalculation penalty =
-                penaltyRepository.findTopByContractIdOrderByIdDesc(contractId);
-        if (penalty == null) return null;
-
-        BreachReport report = new BreachReport(
-                contractOpt.get(),
-                penalty.getDaysDelayed(),
-                penalty.getCalculatedPenalty(),
-                "Contract breached due to late delivery"
-        );
-
-        return reportRepository.save(report);
+    public BreachRule createRule(BreachRule rule) {
+        return repository.save(rule);
     }
 
     @Override
-    public BreachReport getReportById(Long id) {
-        return reportRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<BreachReport> getReportsForContract(Long contractId) {
-        return reportRepository.findByContractId(contractId);
-    }
-
-    @Override
-    public List<BreachReport> getAllReports() {
-        return reportRepository.findAll();
-    }
-}
+    public BreachRule updateRule(Long id, BreachRule rule) {
+        Optional<Bre

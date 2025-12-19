@@ -1,13 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/auth")
 @CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final UserService userService;
@@ -16,17 +14,24 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // POST /auth/register
     @PostMapping("/register")
-    public String register(@RequestBody AuthRequest request) {
-        userService.registerUser(request.getEmail(), request.getPassword());
-        return "User registered";
+    public String register(
+            @RequestParam String email,
+            @RequestParam String password) {
+
+        userService.registerUser(email, password);
+        return "User registered successfully";
     }
 
-    // POST /auth/login
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-        String token = userService.login(request.getEmail(), request.getPassword());
-        return new AuthResponse(token);
+    public String login(
+            @RequestParam String email,
+            @RequestParam String password) {
+
+        String token = userService.login(email, password);
+        if (token == null) {
+            return "Invalid credentials";
+        }
+        return token;
     }
 }
