@@ -24,10 +24,18 @@ public class PenaltyCalculation {
     private BigDecimal calculatedPenalty;
     private LocalDateTime calculatedAt;
 
+    public PenaltyCalculation() {}
+
     @PrePersist
-    void onCreate() {
+    public void onCreate() {
         calculatedAt = LocalDateTime.now();
     }
 
-    public PenaltyCalculation() {}
+    public Long getId() { return id; }
+    public Contract getContract() { return contract; }
+    public void setContract(Contract contract) { this.contract = contract; }
+    public Integer getDaysDelayed() { return daysDelayed; }
+    public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
+    public BigDecimal getCalculatedPenalty() { return calculatedPenalty; }
+    public void setCalculatedPenalty(BigDecimal calculatedPenalty) { this.calculatedPenalty = calculatedPenalty; }
 }

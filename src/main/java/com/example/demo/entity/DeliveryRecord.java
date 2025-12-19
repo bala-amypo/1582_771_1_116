@@ -10,11 +10,19 @@ public class DeliveryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Contract contract;
 
     private LocalDate deliveryDate;
     private String notes;
 
     public DeliveryRecord() {}
+
+    public Long getId() { return id; }
+    public Contract getContract() { return contract; }
+    public void setContract(Contract contract) { this.contract = contract; }
+    public LocalDate getDeliveryDate() { return deliveryDate; }
+    public void setDeliveryDate(LocalDate deliveryDate) { this.deliveryDate = deliveryDate; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }
