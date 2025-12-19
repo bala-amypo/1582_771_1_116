@@ -2,38 +2,42 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.BreachReport;
 import com.example.demo.service.BreachReportService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/breach-reports")
-@CrossOrigin
+@RequestMapping("/api/reports")
+@CrossOrigin(origins = "*")
 public class BreachReportController {
 
-    private final BreachReportService service;
+    private final BreachReportService reportService;
 
-    public BreachReportController(BreachReportService service) {
-        this.service = service;
+    public BreachReportController(BreachReportService reportService) {
+        this.reportService = reportService;
     }
 
-    @PostMapping("/contract/{contractId}")
-    public ResponseEntity<BreachReport> generate(@PathVariable Long contractId) {
-        return ResponseEntity.ok(service.generateReport(contractId));
+    // POST /api/reports/generate/{contractId}
+    @PostMapping("/generate/{contractId}")
+    public BreachReport generate(@PathVariable Long contractId) {
+        return reportService.generateReport(contractId);
     }
 
+    // GET /api/reports/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<BreachReport> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getReportById(id));
+    public BreachReport get(@PathVariable Long id) {
+        return reportService.getReportById(id);
     }
 
+    // GET /api/reports/contract/{contractId}
     @GetMapping("/contract/{contractId}")
-    public ResponseEntity<List<BreachReport>> getByContract(@PathVariable Long contractId) {
-        return ResponseEntity.ok(service.getReportsForContract(contractId));
+    public List<BreachReport> getByContract(@PathVariable Long contractId) {
+        return reportService.getReportsForContract(contractId);
     }
 
+    // GET /api/reports
     @GetMapping
-    public ResponseEntity<List<BreachReport>> getAll() {
-        return ResponseEntity.ok(service.getAllReports());
+    public List<BreachReport> getAll() {
+        return reportService.getAllReports();
     }
 }

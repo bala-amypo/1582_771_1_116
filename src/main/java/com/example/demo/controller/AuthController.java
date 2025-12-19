@@ -1,27 +1,32 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.User;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/users")
-public class UserController {
+@RequestMapping("/auth")
+@CrossOrigin(origins = "*")
+public class AuthController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
 
+    // POST /auth/register
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public String register(@RequestBody AuthRequest request) {
+        userService.registerUser(request.getEmail(), request.getPassword());
+        return "User registered";
     }
 
+    // POST /auth/login
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userService.login(user.getEmail(), user.getPassword());
+    public AuthResponse login(@RequestBody AuthRequest request) {
+        String token = userService.login(request.getEmail(), request.getPassword());
+        return new AuthResponse(token);
     }
 }

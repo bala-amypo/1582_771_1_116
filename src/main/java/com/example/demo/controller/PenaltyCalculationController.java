@@ -2,33 +2,36 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/calculations")
-@CrossOrigin
+@RequestMapping("/api/penalties")
+@CrossOrigin(origins = "*")
 public class PenaltyCalculationController {
 
-    private final PenaltyCalculationService service;
+    private final PenaltyCalculationService penaltyService;
 
-    public PenaltyCalculationController(PenaltyCalculationService service) {
-        this.service = service;
+    public PenaltyCalculationController(PenaltyCalculationService penaltyService) {
+        this.penaltyService = penaltyService;
     }
 
-    @PostMapping("/contract/{contractId}")
-    public ResponseEntity<PenaltyCalculation> calculate(@PathVariable Long contractId) {
-        return ResponseEntity.ok(service.calculatePenalty(contractId));
+    // POST /api/penalties/calculate/{contractId}
+    @PostMapping("/calculate/{contractId}")
+    public PenaltyCalculation calculate(@PathVariable Long contractId) {
+        return penaltyService.calculatePenalty(contractId);
     }
 
+    // GET /api/penalties/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<PenaltyCalculation> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getCalculationById(id));
+    public PenaltyCalculation getById(@PathVariable Long id) {
+        return penaltyService.getCalculationById(id);
     }
 
+    // GET /api/penalties/contract/{contractId}
     @GetMapping("/contract/{contractId}")
-    public ResponseEntity<List<PenaltyCalculation>> getByContract(@PathVariable Long contractId) {
-        return ResponseEntity.ok(service.getCalculationsForContract(contractId));
+    public List<PenaltyCalculation> getByContract(@PathVariable Long contractId) {
+        return penaltyService.getCalculationsForContract(contractId);
     }
 }

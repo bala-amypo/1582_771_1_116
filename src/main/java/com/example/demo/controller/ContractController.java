@@ -2,44 +2,48 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contracts")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ContractController {
 
-    private final ContractService service;
+    private final ContractService contractService;
 
-    public ContractController(ContractService service) {
-        this.service = service;
+    public ContractController(ContractService contractService) {
+        this.contractService = contractService;
     }
 
+    // POST /api/contracts
     @PostMapping
-    public ResponseEntity<Contract> create(@RequestBody Contract contract) {
-        return ResponseEntity.ok(service.createContract(contract));
+    public Contract createContract(@RequestBody Contract contract) {
+        return contractService.createContract(contract);
     }
 
+    // PUT /api/contracts/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<Contract> update(@PathVariable Long id, @RequestBody Contract contract) {
-        return ResponseEntity.ok(service.updateContract(id, contract));
+    public Contract updateContract(@PathVariable Long id, @RequestBody Contract contract) {
+        return contractService.updateContract(id, contract);
     }
 
+    // GET /api/contracts/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Contract> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getContractById(id));
+    public Contract getContract(@PathVariable Long id) {
+        return contractService.getContractById(id);
     }
 
+    // GET /api/contracts
     @GetMapping
-    public ResponseEntity<List<Contract>> getAll() {
-        return ResponseEntity.ok(service.getAllContracts());
+    public List<Contract> getAllContracts() {
+        return contractService.getAllContracts();
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Void> updateStatus(@PathVariable Long id) {
-        service.updateContractStatus(id);
-        return ResponseEntity.ok().build();
+    // PUT /api/contracts/{id}/update-status
+    @PutMapping("/{id}/update-status")
+    public Contract updateStatus(@PathVariable Long id) {
+        return contractService.updateContractStatus(id);
     }
 }
