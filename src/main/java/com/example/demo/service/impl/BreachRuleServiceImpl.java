@@ -4,7 +4,9 @@ import com.example.demo.entity.BreachRule;
 import com.example.demo.repository.BreachRuleRepository;
 import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BreachRuleServiceImpl implements BreachRuleService {
@@ -15,12 +17,18 @@ public class BreachRuleServiceImpl implements BreachRuleService {
         this.repository = repository;
     }
 
+    @Override
     public BreachRule createRule(BreachRule rule) {
         return repository.save(rule);
     }
 
+    @Override
     public BreachRule updateRule(Long id, BreachRule rule) {
-        BreachRule existing = repository.findById(id).orElseThrow();
+        Optional<BreachRule> optional = repository.findById(id);
+        if (optional.isEmpty()) {
+            return null;
+        }
+        BreachRule existing = optional.get();
         existing.setRuleName(rule.getRuleName());
         existing.setPenaltyPerDay(rule.getPenaltyPerDay());
         existing.setMaxPenaltyPercentage(rule.getMaxPenaltyPercentage());
@@ -29,18 +37,28 @@ public class BreachRuleServiceImpl implements BreachRuleService {
         return repository.save(existing);
     }
 
-    public BreachRule getActiveDefaultOrFirst() {
-        return repository.findFirstByActiveTrueOrderByIsDefaultRuleDesc()
-                .orElse(repository.findAll().get(0));
+    @Override
+    public BreachRule getRuleById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
+    @Override
     public List<BreachRule> getAllRules() {
         return repository.findAll();
     }
 
+    @Override
     public void deactivateRule(Long id) {
-        BreachRule rule = repository.findById(id).orElseThrow();
-        rule.setActive(false);
-        repository.save(rule);
+        Optional<BreachRule> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            BreachRule rule = optional.get();
+            rule.setActive(false);
+            repository.save(rule);
+        }
+    }
+
+    @Override
+    public BreachRule getActiveRule() {
+        return repository.findFirstByActiveTrueOrderByIsDefaultRuleDesc();
     }
 }
