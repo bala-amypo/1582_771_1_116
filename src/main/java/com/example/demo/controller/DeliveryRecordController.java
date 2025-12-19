@@ -21,8 +21,8 @@ public class DeliveryRecordController {
         return service.create(record);
     }
 
-    @GetMapping("/contract/{contractId}")
-    public List<DeliveryRecord> getByContract(@PathVariable Long contractId) {
-        return service.getByContract(contractId);
+    @GetMapping("/contract/{id}")
+    public List<DeliveryRecord> getByContract(@PathVariable Long id) {
+        return service.getByContract(id);
     }
 }

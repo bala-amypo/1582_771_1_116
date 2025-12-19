@@ -10,24 +10,24 @@ import java.util.List;
 @CrossOrigin("*")
 public class ContractController {
 
-    private final ContractService contractService;
+    private final ContractService service;
 
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
+    public ContractController(ContractService service) {
+        this.service = service;
     }
 
     @PostMapping
     public Contract create(@RequestBody Contract contract) {
-        return contractService.createContract(contract);
+        return service.createContract(contract);
     }
 
     @GetMapping("/{id}")
     public Contract get(@PathVariable Long id) {
-        return contractService.getContract(id);
+        return service.getContract(id);
     }
 
     @GetMapping
     public List<Contract> getAll() {
-        return contractService.getAllContracts();
+        return service.getAllContracts();
     }
 }
