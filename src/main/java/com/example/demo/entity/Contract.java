@@ -2,8 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Date;
 
 @Entity
 public class Contract {
@@ -17,44 +17,60 @@ public class Contract {
 
     private String title;
     private String counterpartyName;
-    private LocalDate agreedDeliveryDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date agreedDeliveryDate;
+
     private BigDecimal baseContractValue;
-    private String status = "ACTIVE";
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String status;
 
-    public Contract() {}
+    private Instant createdAt;
+    private Instant updatedAt;
 
+    // ✅ Default constructor
+    public Contract() {
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
+    }
+
+    // ✅ Parameterized constructor
     public Contract(String contractNumber, String title, String counterpartyName,
-                    LocalDate agreedDeliveryDate, BigDecimal baseContractValue) {
+                    Date agreedDeliveryDate, BigDecimal baseContractValue, String status) {
         this.contractNumber = contractNumber;
         this.title = title;
         this.counterpartyName = counterpartyName;
         this.agreedDeliveryDate = agreedDeliveryDate;
         this.baseContractValue = baseContractValue;
+        this.status = status;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
+    // ✅ Getters & Setters
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getContractNumber() { return contractNumber; }
     public void setContractNumber(String contractNumber) { this.contractNumber = contractNumber; }
+
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
+
     public String getCounterpartyName() { return counterpartyName; }
     public void setCounterpartyName(String counterpartyName) { this.counterpartyName = counterpartyName; }
-    public LocalDate getAgreedDeliveryDate() { return agreedDeliveryDate; }
-    public void setAgreedDeliveryDate(LocalDate agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
+
+    public Date getAgreedDeliveryDate() { return agreedDeliveryDate; }
+    public void setAgreedDeliveryDate(Date agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
+
     public BigDecimal getBaseContractValue() { return baseContractValue; }
     public void setBaseContractValue(BigDecimal baseContractValue) { this.baseContractValue = baseContractValue; }
+
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }
