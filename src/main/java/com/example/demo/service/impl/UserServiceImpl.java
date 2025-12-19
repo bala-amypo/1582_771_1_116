@@ -5,27 +5,31 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository repository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public User register(User user) {
-        return userRepository.save(user);
+    public void registerUser(String email, String password) {
+        User user = new User(email, password, Collections.singleton("USER"));
+        repository.save(user);
     }
 
     @Override
-    public User login(String email, String password) {
-        User user = userRepository.findByEmail(email);
+    public String login(String email, String password) {
+        Optional<User> optional = repository.findByEmail(email);
+        if (optional.isEmpty()) return null;
 
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+        if (!optional.get().getPassword().equals(password)) return null;
+
+        return "dummy-jwt-token";
     }
 }
