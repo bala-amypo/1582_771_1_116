@@ -4,22 +4,27 @@ import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.repository.PenaltyCalculationRepository;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
+public class PenaltyCalculationServiceImpl
+        implements PenaltyCalculationService {
 
     private final PenaltyCalculationRepository repository;
 
-    public PenaltyCalculationServiceImpl(PenaltyCalculationRepository repository) {
+    public PenaltyCalculationServiceImpl(
+            PenaltyCalculationRepository repository) {
         this.repository = repository;
     }
 
-    public PenaltyCalculation save(PenaltyCalculation pc) {
-        return repository.save(pc);
+    @Override
+    public PenaltyCalculation save(PenaltyCalculation calculation) {
+        return repository.save(calculation);
     }
 
-    public List<PenaltyCalculation> getByContract(Long contractId) {
-        return repository.findByContractId(contractId);
+    @Override
+    public List<PenaltyCalculation> getAll() {
+        return repository.findAll();
     }
 }

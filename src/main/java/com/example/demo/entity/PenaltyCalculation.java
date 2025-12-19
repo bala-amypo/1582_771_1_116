@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "penalty_calculation")
@@ -12,15 +13,36 @@ public class PenaltyCalculation {
 
     private Long contractId;
     private Integer daysDelayed;
-    private Double calculatedPenalty;
+    private BigDecimal calculatedPenalty;
 
-    public PenaltyCalculation() {}
+    public PenaltyCalculation() {
+    }
 
-    public Long getId() { return id; }
-    public Long getContractId() { return contractId; }
-    public void setContractId(Long contractId) { this.contractId = contractId; }
-    public Integer getDaysDelayed() { return daysDelayed; }
-    public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
-    public Double getCalculatedPenalty() { return calculatedPenalty; }
-    public void setCalculatedPenalty(Double calculatedPenalty) { this.calculatedPenalty = calculatedPenalty; }
+    public Long getId() {
+        return id;
+    }
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
+
+    public Integer getDaysDelayed() {
+        return daysDelayed;
+    }
+
+    public void setDaysDelayed(Integer daysDelayed) {
+        this.daysDelayed = daysDelayed;
+    }
+
+    public BigDecimal getCalculatedPenalty() {
+        return calculatedPenalty;
+    }
+
+    public void setCalculatedPenalty(BigDecimal calculatedPenalty) {
+        this.calculatedPenalty = calculatedPenalty;
+    }
 }
