@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.entity.BreachReport;
 import com.example.demo.service.BreachReportService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/api/breach-reports")
+@CrossOrigin("*")
 public class BreachReportController {
 
     private final BreachReportService service;
@@ -21,8 +21,8 @@ public class BreachReportController {
         return service.save(report);
     }
 
-    @GetMapping("/contract/{id}")
-    public List<BreachReport> getByContract(@PathVariable Long id) {
-        return service.getByContract(id);
+    @GetMapping("/contract/{contractId}")
+    public List<BreachReport> get(@PathVariable Long contractId) {
+        return service.getByContract(contractId);
     }
 }

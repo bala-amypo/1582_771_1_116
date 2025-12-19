@@ -1,36 +1,26 @@
 package com.example.demo.entity;
 
-
-// For JSON property mapping (if field names differ from JSON keys)
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "penalty_calculations")
+@Table(name = "penalty_calculation")
 public class PenaltyCalculation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Contract contract;
-
+    private Long contractId;
     private Integer daysDelayed;
-    private BigDecimal calculatedPenalty;
-    private LocalDateTime calculatedAt = LocalDateTime.now();
+    private Double calculatedPenalty;
 
     public PenaltyCalculation() {}
 
     public Long getId() { return id; }
-    public Contract getContract() { return contract; }
-    public void setContract(Contract contract) { this.contract = contract; }
+    public Long getContractId() { return contractId; }
+    public void setContractId(Long contractId) { this.contractId = contractId; }
     public Integer getDaysDelayed() { return daysDelayed; }
     public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
-    public BigDecimal getCalculatedPenalty() { return calculatedPenalty; }
-    public void setCalculatedPenalty(BigDecimal calculatedPenalty) { this.calculatedPenalty = calculatedPenalty; }
-    public LocalDateTime getCalculatedAt() { return calculatedAt; }
+    public Double getCalculatedPenalty() { return calculatedPenalty; }
+    public void setCalculatedPenalty(Double calculatedPenalty) { this.calculatedPenalty = calculatedPenalty; }
 }

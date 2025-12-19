@@ -1,30 +1,27 @@
 package com.example.demo.entity;
 
-
-// For JSON property mapping (if field names differ from JSON keys)
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "delivery_records")
+@Table(name = "delivery_record")
 public class DeliveryRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Contract contract;
-
+    private Long contractId;
     private LocalDate deliveryDate;
+    private String notes;
 
     public DeliveryRecord() {}
 
     public Long getId() { return id; }
-    public Contract getContract() { return contract; }
-    public void setContract(Contract contract) { this.contract = contract; }
+    public Long getContractId() { return contractId; }
+    public void setContractId(Long contractId) { this.contractId = contractId; }
     public LocalDate getDeliveryDate() { return deliveryDate; }
     public void setDeliveryDate(LocalDate deliveryDate) { this.deliveryDate = deliveryDate; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

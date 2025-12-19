@@ -1,28 +1,23 @@
 package com.example.demo.entity;
 
-
-// For JSON property mapping (if field names differ from JSON keys)
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "contracts")
+@Table(name = "contract")
 public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String contractNumber;
 
     private String title;
     private String counterpartyName;
     private LocalDate agreedDeliveryDate;
-    private BigDecimal baseContractValue;
+    private Double baseContractValue;
     private String status = "ACTIVE";
 
     public Contract() {}
@@ -36,8 +31,8 @@ public class Contract {
     public void setCounterpartyName(String counterpartyName) { this.counterpartyName = counterpartyName; }
     public LocalDate getAgreedDeliveryDate() { return agreedDeliveryDate; }
     public void setAgreedDeliveryDate(LocalDate agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
-    public BigDecimal getBaseContractValue() { return baseContractValue; }
-    public void setBaseContractValue(BigDecimal baseContractValue) { this.baseContractValue = baseContractValue; }
+    public Double getBaseContractValue() { return baseContractValue; }
+    public void setBaseContractValue(Double baseContractValue) { this.baseContractValue = baseContractValue; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }

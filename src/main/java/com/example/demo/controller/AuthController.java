@@ -1,34 +1,29 @@
 package com.example.demo.controller;
 
-
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.example.demo.dto.AuthRequestDto;
+import com.example.demo.dto.AuthResponseDto;
+import com.example.demo.dto.RegisterRequestDto;
+import com.example.demo.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController {
 
-    private final UserService service;
+    private final AuthService authService;
 
-    public AuthController(UserService service) {
-        this.service = service;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return service.register(user);
+    public AuthResponseDto register(@RequestBody RegisterRequestDto request) {
+        return authService.register(request);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return service.login(user.getEmail(), user.getPassword());
-    }
-
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
+    public AuthResponseDto login(@RequestBody AuthRequestDto request) {
+        return authService.login(request);
     }
 }

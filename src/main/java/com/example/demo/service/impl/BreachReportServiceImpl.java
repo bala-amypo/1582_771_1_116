@@ -5,9 +5,7 @@ import com.example.demo.repository.BreachReportRepository;
 import com.example.demo.service.BreachReportService;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import jakarta.transaction.Transactional;
 
-@Transactional
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 
@@ -17,12 +15,10 @@ public class BreachReportServiceImpl implements BreachReportService {
         this.repository = repository;
     }
 
-    @Override
     public BreachReport save(BreachReport report) {
         return repository.save(report);
     }
 
-    @Override
     public List<BreachReport> getByContract(Long contractId) {
         return repository.findByContractId(contractId);
     }

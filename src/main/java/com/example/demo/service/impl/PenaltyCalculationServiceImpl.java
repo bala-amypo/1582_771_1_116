@@ -6,9 +6,6 @@ import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
-@Transactional
 @Service
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
@@ -18,12 +15,10 @@ public class PenaltyCalculationServiceImpl implements PenaltyCalculationService 
         this.repository = repository;
     }
 
-    @Override
-    public PenaltyCalculation save(PenaltyCalculation calculation) {
-        return repository.save(calculation);
+    public PenaltyCalculation save(PenaltyCalculation pc) {
+        return repository.save(pc);
     }
 
-    @Override
     public List<PenaltyCalculation> getByContract(Long contractId) {
         return repository.findByContractId(contractId);
     }
