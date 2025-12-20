@@ -34,7 +34,7 @@ public class BreachRuleServiceImpl implements BreachRuleService {
         existing.setPenaltyPerDay(rule.getPenaltyPerDay());
         existing.setMaxPenaltyPercentage(rule.getMaxPenaltyPercentage());
         existing.setActive(rule.getActive());
-        existing.setIsDefaultRule(rule.getIsDefaultRule());
+      
 
         return repository.save(existing);
     }
@@ -61,6 +61,8 @@ public class BreachRuleServiceImpl implements BreachRuleService {
 
     @Override
     public BreachRule getActiveRule() {
-        return repository.findFirstByActiveTrueOrderByIsDefaultRuleDesc();
+        return repository.findFirstByActiveTrueOrderByActiveDesc();
+
+
     }
 }
