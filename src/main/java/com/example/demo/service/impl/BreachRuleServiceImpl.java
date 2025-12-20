@@ -6,6 +6,7 @@ import com.example.demo.service.BreachRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BreachRuleServiceImpl implements BreachRuleService {
@@ -18,22 +19,22 @@ public class BreachRuleServiceImpl implements BreachRuleService {
 
     @Override
     public BreachRule createRule(BreachRule rule) {
-        rule.setActive(true);
         return repository.save(rule);
     }
 
     @Override
     public BreachRule updateRule(Long id, BreachRule rule) {
-        BreachRule existing = repository.findById(id).orElse(null);
-        if (existing == null) {
+        Optional<BreachRule> optional = repository.findById(id);
+        if (optional.isEmpty()) {
             return null;
         }
 
+        BreachRule existing = optional.get();
         existing.setRuleName(rule.getRuleName());
-        existing.setDescription(rule.getDescription());
-        existing.setActive(rule.isActive());
         existing.setPenaltyPerDay(rule.getPenaltyPerDay());
-        existing.setDefaultRule(rule.isDefaultRule());
+        existing.setMaxPenaltyPercentage(rule.getMaxPenaltyPercentage());
+        existing.setActive(rule.getActive());
+        existing.setIsDefaultRule(rule.getIsDefaultRule());
 
         return repository.save(existing);
     }
@@ -49,12 +50,17 @@ public class BreachRuleServiceImpl implements BreachRuleService {
     }
 
     @Override
-    public BreachRule deactivateRule(Long id) {
-        BreachRule rule = repository.findById(id).orElse(null);
-        if (rule == null) {
-            return null;
+    public void deactivateRule(Long id) {
+        Optional<BreachRule> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            BreachRule rule = optional.get();
+            rule.setActive(false);
+            repository.save(rule);
         }
-        rule.setActive(false);
-        return repository.save(rule);
+    }
+
+    @Override
+    public BreachRule getActiveRule() {
+        return repository.findFirstByActiveTrueOrderByIsDefaultRuleDesc();
     }
 }

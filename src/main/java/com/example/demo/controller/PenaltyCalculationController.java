@@ -8,26 +8,30 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/penalties")
+@CrossOrigin(origins = "*")
 public class PenaltyCalculationController {
 
-    private final PenaltyCalculationService service;
+    private final PenaltyCalculationService penaltyService;
 
-    public PenaltyCalculationController(PenaltyCalculationService service) {
-        this.service = service;
+    public PenaltyCalculationController(PenaltyCalculationService penaltyService) {
+        this.penaltyService = penaltyService;
     }
 
+    // POST /api/penalties/calculate/{contractId}
     @PostMapping("/calculate/{contractId}")
-    public double calculate(@PathVariable Long contractId) {
-        return service.calculatePenalty(10); // example
+    public PenaltyCalculation calculate(@PathVariable Long contractId) {
+        return penaltyService.calculatePenalty(contractId);
     }
 
+    // GET /api/penalties/{id}
     @GetMapping("/{id}")
-    public double getCalculation(@PathVariable Long id) {
-        return 0;
+    public PenaltyCalculation getById(@PathVariable Long id) {
+        return penaltyService.getCalculationById(id);
     }
 
+    // GET /api/penalties/contract/{contractId}
     @GetMapping("/contract/{contractId}")
-    public String listCalculations(@PathVariable Long contractId) {
-        return "list";
+    public List<PenaltyCalculation> getByContract(@PathVariable Long contractId) {
+        return penaltyService.getCalculationsForContract(contractId);
     }
 }
