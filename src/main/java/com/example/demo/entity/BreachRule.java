@@ -10,13 +10,17 @@ public class BreachRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String ruleName;
 
     private BigDecimal penaltyPerDay;
+
     private Double maxPenaltyPercentage;
-    private Boolean active;
-    private Boolean isDefaultRule;
+
+    private Boolean active = true;
+
+    private Boolean isDefaultRule = false;
+}
 
     // ✅ Default constructor
     public BreachRule() {}

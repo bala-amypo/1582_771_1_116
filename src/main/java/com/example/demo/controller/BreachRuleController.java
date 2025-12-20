@@ -17,10 +17,18 @@ public class BreachRuleController {
         this.service = service;
     }
 
-    // POST /api/breach-rules  → Create rule
     @PostMapping
-    public BreachRule createRule(@RequestBody BreachRule rule) {
-        return service.createRule(rule);
+    public ResponseEntity<BreachRule> createRule(
+        @RequestBody BreachRule rule) {
+
+    // 🔥 SAFETY: force ID to null
+    rule.setId(null);
+
+    BreachRule saved = breachRuleService.createRule(rule);
+
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(saved);
     }
 
     // PUT /api/breach-rules/{id} → Update rule
