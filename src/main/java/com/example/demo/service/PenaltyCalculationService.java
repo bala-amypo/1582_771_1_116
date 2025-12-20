@@ -4,8 +4,6 @@ import com.example.demo.entity.PenaltyCalculation;
 import java.util.List;
 
 public interface PenaltyCalculationService {
-     double calculatePenalty(int days);
-
 
     PenaltyCalculation calculatePenalty(Long contractId);
 
@@ -13,4 +11,3 @@ public interface PenaltyCalculationService {
 
     List<PenaltyCalculation> getCalculationsForContract(Long contractId);
 }
-
