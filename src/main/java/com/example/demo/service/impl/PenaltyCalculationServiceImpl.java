@@ -40,9 +40,7 @@ public class PenaltyCalculationServiceImpl implements PenaltyCalculationService 
         if (record == null) return null;
 
         BreachRule rule =
-                ruleRepository.findFirstByActiveTrueOrderByActiveDesc();
-
-
+                ruleRepository.findFirstByActiveTrueOrderByIsDefaultRuleDesc();
         if (rule == null) return null;
 
         long days =
