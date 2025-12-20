@@ -1,84 +1,52 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "breach_rule")
 public class BreachRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String ruleName;
 
-    private String description;
+    private BigDecimal penaltyPerDay;
+    private Double maxPenaltyPercentage;
+    private Boolean active;
+    private Boolean isDefaultRule;
 
-    private boolean active;
+    // ✅ Default constructor
+    public BreachRule() {}
 
-    private boolean isDefaultRule;
-
-    private double penaltyPerDay;
-
-    public BreachRule() {
-    }
-
-    public BreachRule(Long id, String ruleName, String description,
-                      boolean active, boolean isDefaultRule,
-                      double penaltyPerDay) {
-        this.id = id;
+    // ✅ Parameterized constructor
+    public BreachRule(String ruleName, BigDecimal penaltyPerDay,
+                      Double maxPenaltyPercentage, Boolean active, Boolean isDefaultRule) {
         this.ruleName = ruleName;
-        this.description = description;
+        this.penaltyPerDay = penaltyPerDay;
+        this.maxPenaltyPercentage = maxPenaltyPercentage;
         this.active = active;
         this.isDefaultRule = isDefaultRule;
-        this.penaltyPerDay = penaltyPerDay;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // ✅ Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getRuleName() { return ruleName; }
+    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
 
-    public String getRuleName() {
-        return ruleName;
-    }
+    public BigDecimal getPenaltyPerDay() { return penaltyPerDay; }
+    public void setPenaltyPerDay(BigDecimal penaltyPerDay) { this.penaltyPerDay = penaltyPerDay; }
 
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
+    public Double getMaxPenaltyPercentage() { return maxPenaltyPercentage; }
+    public void setMaxPenaltyPercentage(Double maxPenaltyPercentage) { this.maxPenaltyPercentage = maxPenaltyPercentage; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isDefaultRule() {
-        return isDefaultRule;
-    }
-
-    public void setDefaultRule(boolean defaultRule) {
-        isDefaultRule = defaultRule;
-    }
-
-    public double getPenaltyPerDay() {
-        return penaltyPerDay;
-    }
-
-    public void setPenaltyPerDay(double penaltyPerDay) {
-        this.penaltyPerDay = penaltyPerDay;
-    }
+    public Boolean getIsDefaultRule() { return isDefaultRule; }
+    public void setIsDefaultRule(Boolean isDefaultRule) { this.isDefaultRule = isDefaultRule; }
 }
