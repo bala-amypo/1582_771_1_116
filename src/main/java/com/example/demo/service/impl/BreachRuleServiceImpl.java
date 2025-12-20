@@ -24,20 +24,23 @@ public class BreachRuleServiceImpl implements BreachRuleService {
 
     @Override
     public BreachRule updateRule(Long id, BreachRule rule) {
-        BreachRule existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
+        BreachRule existing = repository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
 
         existing.setRuleName(rule.getRuleName());
         existing.setDescription(rule.getDescription());
         existing.setActive(rule.isActive());
+        existing.setPenaltyPerDay(rule.getPenaltyPerDay());
+        existing.setDefaultRule(rule.isDefaultRule());
 
         return repository.save(existing);
     }
 
     @Override
     public BreachRule getRuleById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -47,9 +50,10 @@ public class BreachRuleServiceImpl implements BreachRuleService {
 
     @Override
     public BreachRule deactivateRule(Long id) {
-        BreachRule rule = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
-
+        BreachRule rule = repository.findById(id).orElse(null);
+        if (rule == null) {
+            return null;
+        }
         rule.setActive(false);
         return repository.save(rule);
     }

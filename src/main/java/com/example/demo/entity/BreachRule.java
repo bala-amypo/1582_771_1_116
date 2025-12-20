@@ -10,33 +10,29 @@ public class BreachRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String ruleName;
 
-    @Column
     private String description;
 
-    @Column(nullable = false)
     private boolean active;
 
-    @Column(nullable = false)
     private boolean isDefaultRule;
 
-    // ✅ No-args constructor
+    private double penaltyPerDay;
+
     public BreachRule() {
     }
 
-    // ✅ All-args constructor
     public BreachRule(Long id, String ruleName, String description,
-                      boolean active, boolean isDefaultRule) {
+                      boolean active, boolean isDefaultRule,
+                      double penaltyPerDay) {
         this.id = id;
         this.ruleName = ruleName;
         this.description = description;
         this.active = active;
         this.isDefaultRule = isDefaultRule;
+        this.penaltyPerDay = penaltyPerDay;
     }
-
-    // ✅ Getters & Setters
 
     public Long getId() {
         return id;
@@ -76,5 +72,13 @@ public class BreachRule {
 
     public void setDefaultRule(boolean defaultRule) {
         isDefaultRule = defaultRule;
+    }
+
+    public double getPenaltyPerDay() {
+        return penaltyPerDay;
+    }
+
+    public void setPenaltyPerDay(double penaltyPerDay) {
+        this.penaltyPerDay = penaltyPerDay;
     }
 }
