@@ -1,56 +1,87 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 @Entity
+@Table(name = "breach_rule")
+@JsonIgnoreProperties(value = {"id"}, allowSetters = false)
 public class BreachRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String ruleName;
 
+    @Column(nullable = false)
     private BigDecimal penaltyPerDay;
 
+    @Column(nullable = false)
     private Double maxPenaltyPercentage;
 
+    @Column(nullable = false)
     private Boolean active = true;
 
+    @Column(nullable = false)
     private Boolean isDefaultRule = false;
-}
 
-    // ✅ Default constructor
-    public BreachRule() {}
-
-    // ✅ Parameterized constructor
-    public BreachRule(String ruleName, BigDecimal penaltyPerDay,
-                      Double maxPenaltyPercentage, Boolean active, Boolean isDefaultRule) {
-        this.ruleName = ruleName;
-        this.penaltyPerDay = penaltyPerDay;
-        this.maxPenaltyPercentage = maxPenaltyPercentage;
-        this.active = active;
-        this.isDefaultRule = isDefaultRule;
+    // ✅ No-args constructor (REQUIRED by JPA)
+    public BreachRule() {
     }
 
-    // ✅ Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // --- Getters & Setters ---
 
-    public String getRuleName() { return ruleName; }
-    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
+    public Long getId() {
+        return id;
+    }
 
-    public BigDecimal getPenaltyPerDay() { return penaltyPerDay; }
-    public void setPenaltyPerDay(BigDecimal penaltyPerDay) { this.penaltyPerDay = penaltyPerDay; }
+    public String getRuleName() {
+        return ruleName;
+    }
 
-    public Double getMaxPenaltyPercentage() { return maxPenaltyPercentage; }
-    public void setMaxPenaltyPercentage(Double maxPenaltyPercentage) { this.maxPenaltyPercentage = maxPenaltyPercentage; }
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public BigDecimal getPenaltyPerDay() {
+        return penaltyPerDay;
+    }
 
-    public Boolean getIsDefaultRule() { return isDefaultRule; }
-    public void setIsDefaultRule(Boolean isDefaultRule) { this.isDefaultRule = isDefaultRule; }
+    public void setPenaltyPerDay(BigDecimal penaltyPerDay) {
+        this.penaltyPerDay = penaltyPerDay;
+    }
+
+    public Double getMaxPenaltyPercentage() {
+        return maxPenaltyPercentage;
+    }
+
+    public void setMaxPenaltyPercentage(Double maxPenaltyPercentage) {
+        this.maxPenaltyPercentage = maxPenaltyPercentage;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getIsDefaultRule() {
+        return isDefaultRule;
+    }
+
+    public void setIsDefaultRule(Boolean isDefaultRule) {
+        this.isDefaultRule = isDefaultRule;
+    }
 }
