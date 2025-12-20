@@ -17,11 +17,13 @@ public class BreachRuleController {
         this.service = service;
     }
 
+    // POST /api/breach-rules
     @PostMapping
     public BreachRule createRule(@RequestBody BreachRule rule) {
         return service.createRule(rule);
     }
 
+    // PUT /api/breach-rules/{id}
     @PutMapping("/{id}")
     public BreachRule updateRule(
             @PathVariable Long id,
@@ -29,23 +31,21 @@ public class BreachRuleController {
         return service.updateRule(id, rule);
     }
 
+    // GET /api/breach-rules/{id}
     @GetMapping("/{id}")
-    public BreachRule getRuleById(@PathVariable Long id) {
+    public BreachRule getRule(@PathVariable Long id) {
         return service.getRuleById(id);
     }
 
+    // GET /api/breach-rules
     @GetMapping
     public List<BreachRule> getAllRules() {
         return service.getAllRules();
     }
 
-    @DeleteMapping("/{id}")
-    public void deactivateRule(@PathVariable Long id) {
-        service.deactivateRule(id);
-    }
-
-    @GetMapping("/active")
-    public BreachRule getActiveRule() {
-        return service.getActiveRule();
+    // PUT /api/breach-rules/{id}/deactivate
+    @PutMapping("/{id}/deactivate")
+    public BreachRule deactivateRule(@PathVariable Long id) {
+        return service.deactivateRule(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.BreachRule;
+
 import java.util.List;
 
 public interface BreachRuleService {
@@ -13,7 +14,5 @@ public interface BreachRuleService {
 
     List<BreachRule> getAllRules();
 
-    void deactivateRule(Long id);
-
-    BreachRule getActiveRule();
+    BreachRule deactivateRule(Long id);
 }
