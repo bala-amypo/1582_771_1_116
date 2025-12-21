@@ -17,19 +17,16 @@ public class PenaltyCalculationController {
         this.penaltyService = penaltyService;
     }
 
-    // POST /api/penalties/calculate/{contractId}
     @PostMapping("/calculate/{contractId}")
     public PenaltyCalculation calculate(@PathVariable Long contractId) {
         return penaltyService.calculatePenalty(contractId);
     }
 
-    // GET /api/penalties/{id}
     @GetMapping("/{id}")
     public PenaltyCalculation getById(@PathVariable Long id) {
         return penaltyService.getCalculationById(id);
     }
 
-    // GET /api/penalties/contract/{contractId}
     @GetMapping("/contract/{contractId}")
     public List<PenaltyCalculation> getByContract(@PathVariable Long contractId) {
         return penaltyService.getCalculationsForContract(contractId);

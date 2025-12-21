@@ -32,7 +32,7 @@ public class BreachReportController {
         return reportService.getReportsForContract(contractId);
     }
 
-    // GET /api/reports
+   
     @GetMapping
     public List<BreachReport> getAll() {
         return reportService.getAllReports();

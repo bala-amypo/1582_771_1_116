@@ -17,31 +17,26 @@ public class ContractController {
         this.contractService = contractService;
     }
 
-    // POST /api/contracts
     @PostMapping
     public Contract createContract(@RequestBody Contract contract) {
         return contractService.createContract(contract);
     }
 
-    // PUT /api/contracts/{id}
     @PutMapping("/{id}")
     public Contract updateContract(@PathVariable Long id, @RequestBody Contract contract) {
         return contractService.updateContract(id, contract);
     }
 
-    // GET /api/contracts/{id}
     @GetMapping("/{id}")
     public Contract getContract(@PathVariable Long id) {
         return contractService.getContractById(id);
     }
 
-    // GET /api/contracts
     @GetMapping
     public List<Contract> getAllContracts() {
         return contractService.getAllContracts();
     }
 
-    // PUT /api/contracts/{id}/update-status
     @PutMapping("/{id}/update-status")
     public Contract updateStatus(@PathVariable Long id) {
         return contractService.updateContractStatus(id);

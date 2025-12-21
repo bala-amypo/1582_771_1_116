@@ -17,10 +17,8 @@ public class BreachReport {
     private BigDecimal penaltyAmount;
     private String remarks;
 
-    // ✅ Default constructor
     public BreachReport() {}
 
-    // ✅ Parameterized constructor
     public BreachReport(Contract contract, Integer daysDelayed,
                         BigDecimal penaltyAmount, String remarks) {
         this.contract = contract;
@@ -29,7 +27,6 @@ public class BreachReport {
         this.remarks = remarks;
     }
 
-    // ✅ Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

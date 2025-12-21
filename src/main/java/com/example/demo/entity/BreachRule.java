@@ -20,8 +20,6 @@ public class BreachRule {
     private boolean isDefaultRule = false;
    
 
-
-    // ✅ Default constructor
     public BreachRule() {}
 
     public BreachRule(String ruleName, BigDecimal penaltyPerDay,
