@@ -24,14 +24,15 @@ public class BreachRule {
     // ✅ Default constructor
     public BreachRule() {}
 
-    // ✅ Parameterized constructor
     public BreachRule(String ruleName, BigDecimal penaltyPerDay,
-                      Double maxPenaltyPercentage, Boolean active, Boolean isDefaultRule) {
-        this.ruleName = ruleName;
-        this.penaltyPerDay = penaltyPerDay;
-        this.maxPenaltyPercentage = maxPenaltyPercentage;
-        this.active = active;
-    }
+                  Double maxPenaltyPercentage, Boolean active, Boolean isDefaultRule) {
+    this.ruleName = ruleName;
+    this.penaltyPerDay = penaltyPerDay;
+    this.maxPenaltyPercentage = maxPenaltyPercentage;
+    this.active = active;
+    this.isDefaultRule = isDefaultRule;   // ✅ ADD THIS LINE
+}
+
 
     // ✅ Getters & Setters
     public Long getId() { return id; }
