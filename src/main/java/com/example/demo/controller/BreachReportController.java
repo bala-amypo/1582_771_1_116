@@ -17,19 +17,16 @@ public class BreachReportController {
         this.reportService = reportService;
     }
 
-    // POST /api/reports/generate/{contractId}
     @PostMapping("/generate/{contractId}")
     public BreachReport generate(@PathVariable Long contractId) {
         return reportService.generateReport(contractId);
     }
 
-    // GET /api/reports/{id}
     @GetMapping("/{id}")
     public BreachReport get(@PathVariable Long id) {
         return reportService.getReportById(id);
     }
 
-    // GET /api/reports/contract/{contractId}
     @GetMapping("/contract/{contractId}")
     public List<BreachReport> getByContract(@PathVariable Long contractId) {
         return reportService.getReportsForContract(contractId);
