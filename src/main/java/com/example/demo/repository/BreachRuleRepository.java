@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface BreachRuleRepository extends JpaRepository<BreachRule, Long> {
 
     BreachRule findFirstByActiveTrueOrderByIsDefaultRuleDesc();
+    
+
 }
