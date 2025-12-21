@@ -16,7 +16,9 @@ public class BreachRule {
     private BigDecimal penaltyPerDay;
     private Double maxPenaltyPercentage;
     private Boolean active;
-    private Boolean isDefaultRule;
+    @Column(name = "is_default_rule", nullable = false)
+    private boolean isDefaultRule;
+
 
     // ✅ Default constructor
     public BreachRule() {}
