@@ -28,11 +28,8 @@ public class BreachRule {
     this.penaltyPerDay = penaltyPerDay;
     this.maxPenaltyPercentage = maxPenaltyPercentage;
     this.active = active;
-    this.isDefaultRule = isDefaultRule;   // ✅ ADD THIS LINE
+    this.isDefaultRule = isDefaultRule;  
 }
-
-
-    // ✅ Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

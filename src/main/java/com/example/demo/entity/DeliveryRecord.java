@@ -18,17 +18,14 @@ public class DeliveryRecord {
 
     private String notes;
 
-    // ✅ Default constructor
     public DeliveryRecord() {}
 
-    // ✅ Parameterized constructor
     public DeliveryRecord(Contract contract, Date deliveryDate, String notes) {
         this.contract = contract;
         this.deliveryDate = deliveryDate;
         this.notes = notes;
     }
 
-    // ✅ Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

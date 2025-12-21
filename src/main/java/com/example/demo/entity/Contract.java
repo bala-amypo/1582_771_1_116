@@ -27,13 +27,11 @@ public class Contract {
     private Instant createdAt;
     private Instant updatedAt;
 
-    // ✅ Default constructor
     public Contract() {
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
     }
 
-    // ✅ Parameterized constructor
     public Contract(String contractNumber, String title, String counterpartyName,
                     Date agreedDeliveryDate, BigDecimal baseContractValue, String status) {
         this.contractNumber = contractNumber;
@@ -46,7 +44,6 @@ public class Contract {
         this.updatedAt = Instant.now();
     }
 
-    // ✅ Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
