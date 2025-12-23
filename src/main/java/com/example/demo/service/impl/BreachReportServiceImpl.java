@@ -3,6 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.BreachReport;
 import com.example.demo.entity.Contract;
 import com.example.demo.entity.PenaltyCalculation;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.BreachReportRepository;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.PenaltyCalculationRepository;
@@ -33,13 +35,15 @@ public class BreachReportServiceImpl implements BreachReportService {
 
         Optional<Contract> contractOpt = contractRepository.findById(contractId);
         if (contractOpt.isEmpty()) {
-            return null;
+            // Requirement: Message must contain "not found"
+            throw new ResourceNotFoundException("Contract with ID " + contractId + " not found");
         }
 
         PenaltyCalculation penalty =
                 penaltyRepository.findTopByContractIdOrderByIdDesc(contractId);
         if (penalty == null) {
-            return null;
+            // Using BadRequestException as the report cannot be generated without a penalty record
+            throw new BadRequestException("Invalid Penalty: No calculation record found for this contract");
         }
 
         BreachReport report = new BreachReport(
@@ -54,7 +58,8 @@ public class BreachReportServiceImpl implements BreachReportService {
 
     @Override
     public BreachReport getReportById(Long id) {
-        return reportRepository.findById(id).orElse(null);
+        return reportRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Breach Report not found"));
     }
 
     @Override
