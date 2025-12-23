@@ -3,10 +3,6 @@ package com.example.demo.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * Exception for validation and logic failures.
- * Requirement: Message must contain specific keywords (e.g., "Invalid Penalty").
- */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {
