@@ -15,23 +15,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(
-            @RequestParam String email,
-            @RequestParam String password) {
-
+    public String register(@RequestParam String email, @RequestParam String password) {
         userService.registerUser(email, password);
         return "User registered successfully";
     }
 
     @PostMapping("/login")
-    public String login(
-            @RequestParam String email,
-            @RequestParam String password) {
-
-        String token = userService.login(email, password);
-        if (token == null) {
-            return "Invalid credentials";
-        }
-        return token;
+    public String login(@RequestParam String email, @RequestParam String password) {
+        return userService.login(email, password);
     }
 }
