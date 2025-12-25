@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,29 +16,14 @@ public class Contract {
     private String contractNumber;
     private String title;
     private String counterpartyName;
-    private LocalDateTime agreedDeliveryDate;
-    private Double baseContractValue;
+    private LocalDate agreedDeliveryDate;
+    private BigDecimal baseContractValue;
     private String status;
     private LocalDateTime createdAt;
 
-    // Default constructor
     public Contract() {}
 
-    // All-args constructor
-    public Contract(Long id, String contractNumber, String title,
-                    String counterpartyName, LocalDateTime agreedDeliveryDate,
-                    Double baseContractValue, String status,
-                    LocalDateTime createdAt) {
-        this.id = id;
-        this.contractNumber = contractNumber;
-        this.title = title;
-        this.counterpartyName = counterpartyName;
-        this.agreedDeliveryDate = agreedDeliveryDate;
-        this.baseContractValue = baseContractValue;
-        this.status = status;
-        this.createdAt = createdAt;
-    }
-
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -49,11 +36,11 @@ public class Contract {
     public String getCounterpartyName() { return counterpartyName; }
     public void setCounterpartyName(String counterpartyName) { this.counterpartyName = counterpartyName; }
 
-    public LocalDateTime getAgreedDeliveryDate() { return agreedDeliveryDate; }
-    public void setAgreedDeliveryDate(LocalDateTime agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
+    public LocalDate getAgreedDeliveryDate() { return agreedDeliveryDate; }
+    public void setAgreedDeliveryDate(LocalDate agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
 
-    public Double getBaseContractValue() { return baseContractValue; }
-    public void setBaseContractValue(Double baseContractValue) { this.baseContractValue = baseContractValue; }
+    public BigDecimal getBaseContractValue() { return baseContractValue; }
+    public void setBaseContractValue(BigDecimal baseContractValue) { this.baseContractValue = baseContractValue; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

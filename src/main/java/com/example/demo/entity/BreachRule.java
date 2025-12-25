@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "breach_rules")
@@ -10,36 +11,25 @@ public class BreachRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer delayFromDays;
-    private Integer delayToDays;
-    private Double penaltyPercentage;
+    private String ruleName;
+    private BigDecimal penaltyPerDay;
+    private Double maxPenaltyPercentage;
     private boolean active;
     private boolean isDefaultRule;
 
     public BreachRule() {}
 
-    public BreachRule(Long id, Integer delayFromDays, Integer delayToDays,
-                      Double penaltyPercentage, boolean active,
-                      boolean isDefaultRule) {
-        this.id = id;
-        this.delayFromDays = delayFromDays;
-        this.delayToDays = delayToDays;
-        this.penaltyPercentage = penaltyPercentage;
-        this.active = active;
-        this.isDefaultRule = isDefaultRule;
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Integer getDelayFromDays() { return delayFromDays; }
-    public void setDelayFromDays(Integer delayFromDays) { this.delayFromDays = delayFromDays; }
+    public String getRuleName() { return ruleName; }
+    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
 
-    public Integer getDelayToDays() { return delayToDays; }
-    public void setDelayToDays(Integer delayToDays) { this.delayToDays = delayToDays; }
+    public BigDecimal getPenaltyPerDay() { return penaltyPerDay; }
+    public void setPenaltyPerDay(BigDecimal penaltyPerDay) { this.penaltyPerDay = penaltyPerDay; }
 
-    public Double getPenaltyPercentage() { return penaltyPercentage; }
-    public void setPenaltyPercentage(Double penaltyPercentage) { this.penaltyPercentage = penaltyPercentage; }
+    public Double getMaxPenaltyPercentage() { return maxPenaltyPercentage; }
+    public void setMaxPenaltyPercentage(Double maxPenaltyPercentage) { this.maxPenaltyPercentage = maxPenaltyPercentage; }
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
