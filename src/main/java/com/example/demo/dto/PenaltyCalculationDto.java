@@ -1,17 +1,11 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PenaltyCalculationDto {
-
-    private Long id;
+public class DeliveryRecordDto {
     private Long contractId;
-    private BigDecimal penaltyAmount;
-    private String reason;
+    private LocalDate deliveryDate;
+    private String notes;
 }
