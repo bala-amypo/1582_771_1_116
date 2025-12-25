@@ -1,37 +1,24 @@
 package com.example.demo.dto;
 
-public class BreachRuleDTO {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
-    private Integer delayFromDays;
-    private Integer delayToDays;
-    private Double penaltyPercentage;
-    private boolean active;
-    private boolean defaultRule;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BreachRuleDto {
 
-    public BreachRuleDTO() {}
+    private Long id;
 
-    public BreachRuleDTO(Integer delayFromDays, Integer delayToDays,
-                         Double penaltyPercentage, boolean active,
-                         boolean defaultRule) {
-        this.delayFromDays = delayFromDays;
-        this.delayToDays = delayToDays;
-        this.penaltyPercentage = penaltyPercentage;
-        this.active = active;
-        this.defaultRule = defaultRule;
-    }
+    @NotBlank(message = "Rule name is required")
+    private String ruleName;
 
-    public Integer getDelayFromDays() { return delayFromDays; }
-    public void setDelayFromDays(Integer delayFromDays) { this.delayFromDays = delayFromDays; }
+    @NotNull(message = "Penalty percentage is required")
+    private BigDecimal penaltyPercentage;
 
-    public Integer getDelayToDays() { return delayToDays; }
-    public void setDelayToDays(Integer delayToDays) { this.delayToDays = delayToDays; }
-
-    public Double getPenaltyPercentage() { return penaltyPercentage; }
-    public void setPenaltyPercentage(Double penaltyPercentage) { this.penaltyPercentage = penaltyPercentage; }
-
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
-
-    public boolean isDefaultRule() { return defaultRule; }
-    public void setDefaultRule(boolean defaultRule) { this.defaultRule = defaultRule; }
+    private String description;
 }

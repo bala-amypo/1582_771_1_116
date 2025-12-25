@@ -1,19 +1,30 @@
 package com.example.demo.dto;
 
-import lombok.*;
-
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractDto {
-    private String contractNumber;
+
+    private Long id;
+
+    @NotBlank(message = "Contract title is required")
     private String title;
-    private String counterpartyName;
-    private LocalDate agreedDeliveryDate;
-    private BigDecimal baseContractValue;
+
+    @NotBlank(message = "Client name is required")
+    private String clientName;
+
+    @NotNull(message = "Start date is required")
+    private LocalDate startDate;
+
+    @NotNull(message = "End date is required")
+    private LocalDate endDate;
+
     private String status;
 }
