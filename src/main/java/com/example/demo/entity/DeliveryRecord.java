@@ -1,10 +1,14 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "delivery_records")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeliveryRecord {
 
     @Id
@@ -12,18 +16,11 @@ public class DeliveryRecord {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Contract contract;
 
+    @Column(nullable = false)
     private LocalDate deliveryDate;
 
-    public DeliveryRecord() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Contract getContract() { return contract; }
-    public void setContract(Contract contract) { this.contract = contract; }
-
-    public LocalDate getDeliveryDate() { return deliveryDate; }
-    public void setDeliveryDate(LocalDate deliveryDate) { this.deliveryDate = deliveryDate; }
+    private String notes;
 }

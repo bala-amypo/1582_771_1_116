@@ -1,47 +1,29 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "breach_reports")
-public class BreachReport {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
+    @Column(unique = true, nullable = false)
+    private String email;
 
-    private Integer totalDelayDays;
-    private Double totalPenalty;
-    private LocalDateTime generatedAt;
+    @Column(nullable = false)
+    private String password;
 
-    public BreachReport() {}
-
-    public BreachReport(Long id, Contract contract, Integer totalDelayDays,
-                        Double totalPenalty, LocalDateTime generatedAt) {
-        this.id = id;
-        this.contract = contract;
-        this.totalDelayDays = totalDelayDays;
-        this.totalPenalty = totalPenalty;
-        this.generatedAt = generatedAt;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Contract getContract() { return contract; }
-    public void setContract(Contract contract) { this.contract = contract; }
-
-    public Integer getTotalDelayDays() { return totalDelayDays; }
-    public void setTotalDelayDays(Integer totalDelayDays) { this.totalDelayDays = totalDelayDays; }
-
-    public Double getTotalPenalty() { return totalPenalty; }
-    public void setTotalPenalty(Double totalPenalty) { this.totalPenalty = totalPenalty; }
-
-    public LocalDateTime getGeneratedAt() { return generatedAt; }
-    public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<String> roles;
 }

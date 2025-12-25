@@ -1,11 +1,16 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "penalty_calculations")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PenaltyCalculation {
 
     @Id
@@ -16,23 +21,9 @@ public class PenaltyCalculation {
     private Contract contract;
 
     private Integer daysDelayed;
+
     private BigDecimal calculatedPenalty;
+
+    @CreationTimestamp
     private LocalDateTime calculatedAt;
-
-    public PenaltyCalculation() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Contract getContract() { return contract; }
-    public void setContract(Contract contract) { this.contract = contract; }
-
-    public Integer getDaysDelayed() { return daysDelayed; }
-    public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
-
-    public BigDecimal getCalculatedPenalty() { return calculatedPenalty; }
-    public void setCalculatedPenalty(BigDecimal calculatedPenalty) { this.calculatedPenalty = calculatedPenalty; }
-
-    public LocalDateTime getCalculatedAt() { return calculatedAt; }
-    public void setCalculatedAt(LocalDateTime calculatedAt) { this.calculatedAt = calculatedAt; }
 }

@@ -7,11 +7,11 @@ public interface ContractService {
 
     Contract createContract(Contract contract);
 
-    Contract updateContract(Long id, Contract contract);
-
     Contract getContractById(Long id);
+
+    Contract updateContract(Long id, Contract contract);
 
     List<Contract> getAllContracts();
 
-    Contract updateContractStatus(Long id);
+    void updateContractStatus(Long contractId);
 }
