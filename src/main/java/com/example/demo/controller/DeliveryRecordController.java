@@ -1,39 +1,41 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.DeliveryRecordDto;
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.service.DeliveryRecordService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/delivery-records")
-@CrossOrigin(origins = "*")
 public class DeliveryRecordController {
 
-    private final DeliveryRecordService deliveryService;
-
-    public DeliveryRecordController(DeliveryRecordService deliveryService) {
-        this.deliveryService = deliveryService;
-    }
+    @Autowired
+    private DeliveryRecordService deliveryRecordService;
 
     @PostMapping
-    public DeliveryRecord create(@RequestBody DeliveryRecord record) {
-        return deliveryService.createDeliveryRecord(record);
+    public DeliveryRecord createDeliveryRecord(@RequestBody DeliveryRecordDto dto) {
+        DeliveryRecord rec = DeliveryRecord.builder()
+                .contract(dto.getContract())
+                .deliveryDate(dto.getDeliveryDate())
+                .notes(dto.getNotes())
+                .build();
+        return deliveryRecordService.createDeliveryRecord(rec);
     }
 
     @GetMapping("/{id}")
-    public DeliveryRecord getById(@PathVariable Long id) {
-        return deliveryService.getRecordById(id);
+    public DeliveryRecord getRecordById(@PathVariable Long id) {
+        return deliveryRecordService.getRecordById(id);
+    }
+
+    @GetMapping("/latest/{contractId}")
+    public DeliveryRecord getLatestDelivery(@PathVariable Long contractId) {
+        return deliveryRecordService.getLatestDeliveryRecord(contractId);
     }
 
     @GetMapping("/contract/{contractId}")
-    public List<DeliveryRecord> getByContract(@PathVariable Long contractId) {
-        return deliveryService.getDeliveryRecordsForContract(contractId);
-    }
-
-    @GetMapping("/contract/{contractId}/latest")
-    public DeliveryRecord getLatest(@PathVariable Long contractId) {
-        return deliveryService.getLatestDeliveryRecord(contractId);
+    public List<DeliveryRecord> getDeliveryRecordsForContract(@PathVariable Long contractId) {
+        return deliveryRecordService.getDeliveryRecordsForContract(contractId);
     }
 }

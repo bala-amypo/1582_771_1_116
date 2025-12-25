@@ -2,33 +2,28 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/penalties")
-@CrossOrigin(origins = "*")
 public class PenaltyCalculationController {
 
-    private final PenaltyCalculationService penaltyService;
-
-    public PenaltyCalculationController(PenaltyCalculationService penaltyService) {
-        this.penaltyService = penaltyService;
-    }
+    @Autowired
+    private PenaltyCalculationService penaltyCalculationService;
 
     @PostMapping("/calculate/{contractId}")
-    public PenaltyCalculation calculate(@PathVariable Long contractId) {
-        return penaltyService.calculatePenalty(contractId);
+    public PenaltyCalculation calculatePenalty(@PathVariable Long contractId) {
+        return penaltyCalculationService.calculatePenalty(contractId);
     }
 
     @GetMapping("/{id}")
-    public PenaltyCalculation getById(@PathVariable Long id) {
-        return penaltyService.getCalculationById(id);
+    public PenaltyCalculation getCalculation(@PathVariable Long id) {
+        return penaltyCalculationService.getCalculationById(id);
     }
 
     @GetMapping("/contract/{contractId}")
-    public List<PenaltyCalculation> getByContract(@PathVariable Long contractId) {
-        return penaltyService.getCalculationsForContract(contractId);
+    public java.util.List<PenaltyCalculation> getCalculationsForContract(@PathVariable Long contractId) {
+        return penaltyCalculationService.getCalculationsForContract(contractId);
     }
 }

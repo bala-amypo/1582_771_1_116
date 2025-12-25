@@ -1,37 +1,51 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.UserService;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashSet;
+import java.util.Set;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/register")
-    public String register(
-            @RequestParam String email,
-            @RequestParam String password) {
-
-        userService.registerUser(email, password);
-        return "User registered successfully";
+    public AuthResponse register(@RequestBody AuthRequest req) {
+        if(userRepository.existsByEmail(req.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        User u = User.builder()
+                .email(req.getEmail())
+                .password(passwordEncoder.encode(req.getPassword()))
+                .roles(Set.of("ROLE_USER"))
+                .build();
+        userRepository.save(u);
+        String token = jwtTokenProvider.generateToken(u.getId(), u.getEmail(), u.getRoles());
+        return new AuthResponse(token);
     }
 
     @PostMapping("/login")
-    public String login(
-            @RequestParam String email,
-            @RequestParam String password) {
-
-        String token = userService.login(email, password);
-        if (token == null) {
-            return "Invalid credentials";
+    public AuthResponse login(@RequestBody AuthRequest req) {
+        User u = userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+        if(!passwordEncoder.matches(req.getPassword(), u.getPassword())) {
+            throw new IllegalArgumentException("Invalid credentials");
         }
-        return token;
+        String token = jwtTokenProvider.generateToken(u.getId(), u.getEmail(), u.getRoles());
+        return new AuthResponse(token);
     }
 }

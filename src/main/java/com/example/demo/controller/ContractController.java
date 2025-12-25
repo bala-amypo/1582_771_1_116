@@ -1,30 +1,30 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ContractDto;
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contracts")
-@CrossOrigin(origins = "*")
 public class ContractController {
 
-    private final ContractService contractService;
-
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
-    }
+    @Autowired
+    private ContractService contractService;
 
     @PostMapping
-    public Contract createContract(@RequestBody Contract contract) {
-        return contractService.createContract(contract);
-    }
-
-    @PutMapping("/{id}")
-    public Contract updateContract(@PathVariable Long id, @RequestBody Contract contract) {
-        return contractService.updateContract(id, contract);
+    public Contract createContract(@RequestBody ContractDto dto) {
+        Contract c = Contract.builder()
+                .contractNumber(dto.getContractNumber())
+                .title(dto.getTitle())
+                .counterpartyName(dto.getCounterpartyName())
+                .agreedDeliveryDate(dto.getAgreedDeliveryDate())
+                .baseContractValue(dto.getBaseContractValue())
+                .status("ACTIVE")
+                .build();
+        return contractService.createContract(c);
     }
 
     @GetMapping("/{id}")
@@ -37,8 +37,20 @@ public class ContractController {
         return contractService.getAllContracts();
     }
 
-    @PutMapping("/{id}/update-status")
+    @PutMapping("/{id}")
+    public Contract updateContract(@PathVariable Long id, @RequestBody ContractDto dto) {
+        Contract c = Contract.builder()
+                .title(dto.getTitle())
+                .counterpartyName(dto.getCounterpartyName())
+                .agreedDeliveryDate(dto.getAgreedDeliveryDate())
+                .baseContractValue(dto.getBaseContractValue())
+                .build();
+        return contractService.updateContract(id, c);
+    }
+
+    @PatchMapping("/{id}/status")
     public Contract updateStatus(@PathVariable Long id) {
-        return contractService.updateContractStatus(id);
+        contractService.updateContractStatus(id);
+        return contractService.getContractById(id);
     }
 }
