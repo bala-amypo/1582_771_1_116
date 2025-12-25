@@ -4,7 +4,9 @@ import com.example.demo.dto.ContractDto;
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -15,42 +17,28 @@ public class ContractController {
     private ContractService contractService;
 
     @PostMapping
-    public Contract createContract(@RequestBody ContractDto dto) {
-        Contract c = Contract.builder()
-                .contractNumber(dto.getContractNumber())
-                .title(dto.getTitle())
-                .counterpartyName(dto.getCounterpartyName())
-                .agreedDeliveryDate(dto.getAgreedDeliveryDate())
-                .baseContractValue(dto.getBaseContractValue())
-                .status("ACTIVE")
-                .build();
-        return contractService.createContract(c);
+    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
+        return ResponseEntity.ok(contractService.createContract(contract));
     }
 
     @GetMapping("/{id}")
-    public Contract getContract(@PathVariable Long id) {
-        return contractService.getContractById(id);
+    public ResponseEntity<Contract> getContract(@PathVariable Long id) {
+        return ResponseEntity.ok(contractService.getContractById(id));
     }
 
     @GetMapping
-    public List<Contract> getAllContracts() {
-        return contractService.getAllContracts();
+    public ResponseEntity<List<Contract>> getAllContracts() {
+        return ResponseEntity.ok(contractService.getAllContracts());
     }
 
     @PutMapping("/{id}")
-    public Contract updateContract(@PathVariable Long id, @RequestBody ContractDto dto) {
-        Contract c = Contract.builder()
-                .title(dto.getTitle())
-                .counterpartyName(dto.getCounterpartyName())
-                .agreedDeliveryDate(dto.getAgreedDeliveryDate())
-                .baseContractValue(dto.getBaseContractValue())
-                .build();
-        return contractService.updateContract(id, c);
+    public ResponseEntity<Contract> updateContract(@PathVariable Long id, @RequestBody Contract contractDetails) {
+        return ResponseEntity.ok(contractService.updateContract(id, contractDetails));
     }
 
-    @PatchMapping("/{id}/status")
-    public Contract updateStatus(@PathVariable Long id) {
-        contractService.updateContractStatus(id);
-        return contractService.getContractById(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteContract(@PathVariable Long id) {
+        contractService.deleteContract(id);
+        return ResponseEntity.ok().build();
     }
 }

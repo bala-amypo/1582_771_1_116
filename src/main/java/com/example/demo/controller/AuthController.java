@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.*;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @RestController
@@ -16,36 +17,28 @@ import java.util.Set;
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private UserService userService;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody AuthRequest req) {
-        if(userRepository.existsByEmail(req.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-        User u = User.builder()
-                .email(req.getEmail())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .roles(Set.of("ROLE_USER"))
-                .build();
-        userRepository.save(u);
-        String token = jwtTokenProvider.generateToken(u.getId(), u.getEmail(), u.getRoles());
-        return new AuthResponse(token);
+    public ResponseEntity<?> registerUser(@RequestBody AuthRequest regRequest) {
+        User user = userService.registerUser(regRequest);
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest req) {
-        User u = userRepository.findByEmail(req.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-        if(!passwordEncoder.matches(req.getPassword(), u.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
-        }
-        String token = jwtTokenProvider.generateToken(u.getId(), u.getEmail(), u.getRoles());
-        return new AuthResponse(token);
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+
+        User user = (User) authentication.getPrincipal();
+        String jwt = tokenProvider.generateToken(user.getId(), user.getEmail(), user.getRoles());
+        return ResponseEntity.ok(new AuthResponse(jwt));
     }
 }
