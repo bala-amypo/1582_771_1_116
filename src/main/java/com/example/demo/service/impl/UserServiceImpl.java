@@ -1,46 +1,38 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.User;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
-    public void registerUser(String email, String password) {
-        // Check if email already exists to satisfy keyword: "email" or "exists"
-        if (repository.findByEmail(email).isPresent()) {
-            throw new BadRequestException("User with this email already exists");
-        }
-        
-        User user = new User(email, password, Collections.singleton("USER"));
-        repository.save(user);
+    public User registerUser(String email, String password) {
+        if (userRepository.existsByEmail(email)) throw new IllegalArgumentException("Email exists");
+        User user = User.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .roles(new HashSet<>(Set.of("ROLE_USER")))
+                .build();
+        return userRepository.save(user);
     }
 
     @Override
-    public String login(String email, String password) {
-        // Use ResourceNotFoundException to satisfy keyword: "not found"
-        User user = repository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        // Use BadRequestException for invalid credentials
-        if (!user.getPassword().equals(password)) {
-            throw new BadRequestException("Invalid credentials");
-        }
-
-        return "dummy-jwt-token";
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

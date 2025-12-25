@@ -1,4 +1,3 @@
-
 package com.example.demo.service;
 
 import com.example.demo.entity.BreachRule;
@@ -8,13 +7,9 @@ public interface BreachRuleService {
 
     BreachRule createRule(BreachRule rule);
 
-    BreachRule updateRule(Long id, BreachRule rule);
+    void deactivateRule(Long ruleId);
 
-    BreachRule getRuleById(Long id);
+    BreachRule getActiveDefaultOrFirst();
 
     List<BreachRule> getAllRules();
-
-    void deactivateRule(Long id);
-
-    BreachRule getActiveRule();
 }

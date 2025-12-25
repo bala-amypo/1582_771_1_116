@@ -2,64 +2,59 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.Contract;
 import com.example.demo.repository.ContractRepository;
+import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.ContractService;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContractServiceImpl implements ContractService {
 
-    private final ContractRepository repository;
+    private ContractRepository contractRepository;
+    private DeliveryRecordRepository deliveryRecordRepository;
 
-    public ContractServiceImpl(ContractRepository repository) {
-        this.repository = repository;
-    }
+    public ContractServiceImpl() {}
 
     @Override
     public Contract createContract(Contract contract) {
-        contract.setCreatedAt(Instant.now());
-        contract.setUpdatedAt(Instant.now());
-        return repository.save(contract);
-    }
-
-    @Override
-    public Contract updateContract(Long id, Contract contract) {
-        Optional<Contract> optional = repository.findById(id);
-        if (optional.isEmpty()) {
-            return null;
-        }
-        Contract existing = optional.get();
-        existing.setTitle(contract.getTitle());
-        existing.setCounterpartyName(contract.getCounterpartyName());
-        existing.setAgreedDeliveryDate(contract.getAgreedDeliveryDate());
-        existing.setBaseContractValue(contract.getBaseContractValue());
-        existing.setStatus(contract.getStatus());
-        existing.setUpdatedAt(Instant.now());
-        return repository.save(existing);
+        if (contract.getBaseContractValue() == null || contract.getBaseContractValue().intValue() <= 0)
+            throw new IllegalArgumentException("Base contract value must be positive");
+        contract.setStatus(contract.getStatus() != null ? contract.getStatus() : "ACTIVE");
+        return contractRepository.save(contract);
     }
 
     @Override
     public Contract getContractById(Long id) {
-        return repository.findById(id).orElse(null);
+        return contractRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contract not found"));
+    }
+
+    @Override
+    public Contract updateContract(Long id, Contract updated) {
+        Contract existing = getContractById(id);
+        if (updated.getTitle() != null) existing.setTitle(updated.getTitle());
+        if (updated.getCounterpartyName() != null) existing.setCounterpartyName(updated.getCounterpartyName());
+        if (updated.getAgreedDeliveryDate() != null) existing.setAgreedDeliveryDate(updated.getAgreedDeliveryDate());
+        if (updated.getBaseContractValue() != null) existing.setBaseContractValue(updated.getBaseContractValue());
+        return contractRepository.save(existing);
     }
 
     @Override
     public List<Contract> getAllContracts() {
-        return repository.findAll();
+        return contractRepository.findAll();
     }
 
     @Override
-    public Contract updateContractStatus(Long id) {
-        Optional<Contract> optional = repository.findById(id);
-        if (optional.isEmpty()) {
-            return null;
+    public void updateContractStatus(Long contractId) {
+        Contract c = getContractById(contractId);
+        var deliveryOpt = deliveryRecordRepository.findFirstByContractIdOrderByDeliveryDateDesc(contractId);
+        if (deliveryOpt.isEmpty()) {
+            c.setStatus("ACTIVE");
+        } else if (deliveryOpt.get().getDeliveryDate().isAfter(c.getAgreedDeliveryDate())) {
+            c.setStatus("BREACHED");
+        } else {
+            c.setStatus("ACTIVE");
         }
-        Contract contract = optional.get();
-        contract.setStatus("BREACHED");
-        contract.setUpdatedAt(Instant.now());
-        return repository.save(contract);
+        contractRepository.save(c);
     }
 }
