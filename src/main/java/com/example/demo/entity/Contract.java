@@ -25,9 +25,9 @@ public class Contract {
     private LocalDate agreedDeliveryDate;
     private BigDecimal baseContractValue;
     
-    // Status can be ACTIVE, COMPLETED, or BREACHED
+    // ACTIVE, COMPLETED, or BREACHED
     private String status;
 
-    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DeliveryRecord> deliveryRecords;
 }
