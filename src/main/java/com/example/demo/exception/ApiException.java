@@ -1,11 +1,14 @@
 package com.example.demo.exception;
 
-public class ApiException extends RuntimeException {
-    public ApiException(String message) {
-        super(message);
-    }
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-    public ApiException(String message, Throwable cause) {
-        super(message, cause);
+@Getter
+public class ApiException extends RuntimeException {
+    private final HttpStatus status;
+
+    public ApiException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
     }
 }
