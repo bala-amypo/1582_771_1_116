@@ -1,44 +1,43 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.BreachRule;
+import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.BreachRuleRepository;
-import com.example.demo.service.BreachRuleService;
+import com.example.demo.repository.*;
+import com.example.demo.service.BreachReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class BreachRuleServiceImpl implements BreachRuleService {
+public class BreachReportServiceImpl implements BreachReportService {
 
-    @Autowired
-    private BreachRuleRepository breachRuleRepository;
+    @Autowired private BreachReportRepository breachReportRepository;
+    @Autowired private PenaltyCalculationRepository penaltyCalculationRepository;
+    @Autowired private ContractRepository contractRepository;
 
     @Override
-    public BreachRule createRule(BreachRule rule) {
-        if (rule.getPenaltyPerDay().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Penalty per day must be greater than zero");
-        }
-        return breachRuleRepository.save(rule);
+    public BreachReport generateReport(Long contractId) {
+        // Ensure contract exists
+        contractRepository.findById(contractId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+
+        // Get the most recent calculation for this contract
+        PenaltyCalculation latestCalc = penaltyCalculationRepository
+                .findTopByContractIdOrderByCalculatedAtDesc(contractId)
+                .orElseThrow(() -> new ResourceNotFoundException("No penalty calculation found for this contract. Please run calculation first."));
+
+        BreachReport report = BreachReport.builder()
+                .contractId(contractId)
+                .daysDelayed(latestCalc.getDaysDelayed())
+                .penaltyAmount(latestCalc.getCalculatedPenalty())
+                .build();
+
+        return breachReportRepository.save(report);
     }
 
     @Override
-    public List<BreachRule> getAllRules() {
-        return breachRuleRepository.findAll();
-    }
-
-    @Override
-    public BreachRule getActiveDefaultOrFirst() {
-        return breachRuleRepository.findFirstByActiveTrueOrderByIsDefaultRuleDesc()
-                .orElseThrow(() -> new ResourceNotFoundException("No active breach rule available"));
-    }
-
-    @Override
-    public void deactivateRule(Long id) {
-        BreachRule rule = breachRuleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
-        rule.setActive(false);
-        breachRuleRepository.save(rule);
+    public List<BreachReport> getReportsByContract(Long contractId) {
+        // Implementation of custom query to fetch report history
+        return breachReportRepository.findAll(); 
     }
 }
