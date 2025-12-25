@@ -1,9 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "breach_reports")
 public class BreachReport {
 
     @Id
@@ -11,20 +12,22 @@ public class BreachReport {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "contract_id")
     private Contract contract;
 
-    private Integer daysDelayed;
-    private BigDecimal penaltyAmount;
-    private String remarks;
+    private Integer totalDelayDays;
+    private Double totalPenalty;
+    private LocalDateTime generatedAt;
 
     public BreachReport() {}
 
-    public BreachReport(Contract contract, Integer daysDelayed,
-                        BigDecimal penaltyAmount, String remarks) {
+    public BreachReport(Long id, Contract contract, Integer totalDelayDays,
+                        Double totalPenalty, LocalDateTime generatedAt) {
+        this.id = id;
         this.contract = contract;
-        this.daysDelayed = daysDelayed;
-        this.penaltyAmount = penaltyAmount;
-        this.remarks = remarks;
+        this.totalDelayDays = totalDelayDays;
+        this.totalPenalty = totalPenalty;
+        this.generatedAt = generatedAt;
     }
 
     public Long getId() { return id; }
@@ -33,12 +36,12 @@ public class BreachReport {
     public Contract getContract() { return contract; }
     public void setContract(Contract contract) { this.contract = contract; }
 
-    public Integer getDaysDelayed() { return daysDelayed; }
-    public void setDaysDelayed(Integer daysDelayed) { this.daysDelayed = daysDelayed; }
+    public Integer getTotalDelayDays() { return totalDelayDays; }
+    public void setTotalDelayDays(Integer totalDelayDays) { this.totalDelayDays = totalDelayDays; }
 
-    public BigDecimal getPenaltyAmount() { return penaltyAmount; }
-    public void setPenaltyAmount(BigDecimal penaltyAmount) { this.penaltyAmount = penaltyAmount; }
+    public Double getTotalPenalty() { return totalPenalty; }
+    public void setTotalPenalty(Double totalPenalty) { this.totalPenalty = totalPenalty; }
 
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
+    public LocalDateTime getGeneratedAt() { return generatedAt; }
+    public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
 }
