@@ -1,9 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "delivery_records")
 public class DeliveryRecord {
 
     @Id
@@ -11,19 +12,20 @@ public class DeliveryRecord {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "contract_id")
     private Contract contract;
 
-    @Temporal(TemporalType.DATE)
-    private Date deliveryDate;
-
-    private String notes;
+    private LocalDateTime actualDeliveryDate;
+    private String remarks;
 
     public DeliveryRecord() {}
 
-    public DeliveryRecord(Contract contract, Date deliveryDate, String notes) {
+    public DeliveryRecord(Long id, Contract contract,
+                          LocalDateTime actualDeliveryDate, String remarks) {
+        this.id = id;
         this.contract = contract;
-        this.deliveryDate = deliveryDate;
-        this.notes = notes;
+        this.actualDeliveryDate = actualDeliveryDate;
+        this.remarks = remarks;
     }
 
     public Long getId() { return id; }
@@ -32,9 +34,9 @@ public class DeliveryRecord {
     public Contract getContract() { return contract; }
     public void setContract(Contract contract) { this.contract = contract; }
 
-    public Date getDeliveryDate() { return deliveryDate; }
-    public void setDeliveryDate(Date deliveryDate) { this.deliveryDate = deliveryDate; }
+    public LocalDateTime getActualDeliveryDate() { return actualDeliveryDate; }
+    public void setActualDeliveryDate(LocalDateTime actualDeliveryDate) { this.actualDeliveryDate = actualDeliveryDate; }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public String getRemarks() { return remarks; }
+    public void setRemarks(String remarks) { this.remarks = remarks; }
 }
