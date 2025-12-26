@@ -5,5 +5,7 @@ import java.util.List;
 
 public interface BreachReportService {
     BreachReport generateReport(Long contractId);
-    List<BreachReport> getReportsByContract(Long contractId);
+    BreachReport getReportById(Long id);
+    List<BreachReport> getReportsForContract(Long contractId);
+    List<BreachReport> getAllReports();
 }

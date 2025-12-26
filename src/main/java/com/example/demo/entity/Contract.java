@@ -2,32 +2,29 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "contracts")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Contract {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String contractNumber;
-
     private String title;
     private String counterpartyName;
     private LocalDate agreedDeliveryDate;
     private BigDecimal baseContractValue;
-    
-    // ACTIVE, COMPLETED, or BREACHED
-    private String status;
+    private String status = "ACTIVE";
 
-    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DeliveryRecord> deliveryRecords;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

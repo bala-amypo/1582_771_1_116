@@ -1,30 +1,24 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.BreachReport;
 import com.example.demo.entity.PenaltyCalculation;
-import com.example.demo.service.BreachReportService;
 import com.example.demo.service.PenaltyCalculationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/process")
+@RequestMapping("/api/penalties")
 public class PenaltyCalculationController {
 
-    @Autowired
-    private PenaltyCalculationService penaltyService;
-
-    @Autowired
-    private BreachReportService reportService;
+    PenaltyCalculationService penaltyCalculationService;
 
     @PostMapping("/calculate/{contractId}")
-    public ResponseEntity<PenaltyCalculation> runCalculation(@PathVariable Long contractId) {
-        return ResponseEntity.ok(penaltyService.calculatePenalty(contractId));
+    public PenaltyCalculation calculate(@PathVariable Long contractId) {
+        return penaltyCalculationService.calculatePenalty(contractId);
     }
 
-    @GetMapping("/report/{contractId}")
-    public ResponseEntity<BreachReport> generateReport(@PathVariable Long contractId) {
-        return ResponseEntity.ok(reportService.generateReport(contractId));
+    @GetMapping("/contract/{contractId}")
+    public List<PenaltyCalculation> list(@PathVariable Long contractId) {
+        return penaltyCalculationService.getCalculationsForContract(contractId);
     }
 }

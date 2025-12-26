@@ -2,24 +2,28 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.service.DeliveryRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/deliveries")
+@RequestMapping("/api/delivery-records")
 public class DeliveryRecordController {
 
-    @Autowired
-    private DeliveryRecordService deliveryRecordService;
+    DeliveryRecordService deliveryRecordService;
 
     @PostMapping
-    public ResponseEntity<DeliveryRecord> recordDelivery(@RequestBody DeliveryRecord record) {
-        return ResponseEntity.ok(deliveryRecordService.createDeliveryRecord(record));
+    public DeliveryRecord create(@RequestBody DeliveryRecord record) {
+        return deliveryRecordService.createDeliveryRecord(record);
     }
 
-    @GetMapping("/latest/{contractId}")
-    public ResponseEntity<DeliveryRecord> getLatest(@PathVariable Long contractId) {
-        return ResponseEntity.ok(deliveryRecordService.getLatestDeliveryRecord(contractId));
+    @GetMapping("/{id}")
+    public DeliveryRecord get(@PathVariable Long id) {
+        return deliveryRecordService.getRecordById(id);
+    }
+
+    @GetMapping("/contract/{contractId}")
+    public List<DeliveryRecord> list(@PathVariable Long contractId) {
+        return deliveryRecordService.getDeliveryRecordsForContract(contractId);
     }
 }

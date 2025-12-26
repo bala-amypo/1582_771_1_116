@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ContractDto;
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,32 +10,20 @@ import java.util.List;
 @RequestMapping("/api/contracts")
 public class ContractController {
 
-    @Autowired
-    private ContractService contractService;
+    ContractService contractService;
 
     @PostMapping
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
-        return ResponseEntity.ok(contractService.createContract(contract));
+    public Contract create(@RequestBody Contract contract) {
+        return contractService.createContract(contract);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Contract> getContract(@PathVariable Long id) {
-        return ResponseEntity.ok(contractService.getContractById(id));
+    public Contract get(@PathVariable Long id) {
+        return contractService.getContractById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<Contract>> getAllContracts() {
-        return ResponseEntity.ok(contractService.getAllContracts());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Contract> updateContract(@PathVariable Long id, @RequestBody Contract contractDetails) {
-        return ResponseEntity.ok(contractService.updateContract(id, contractDetails));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteContract(@PathVariable Long id) {
-        contractService.deleteContract(id);
-        return ResponseEntity.ok().build();
+    public List<Contract> list() {
+        return contractService.getAllContracts();
     }
 }

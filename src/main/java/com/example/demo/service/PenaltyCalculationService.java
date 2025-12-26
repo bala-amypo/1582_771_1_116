@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface PenaltyCalculationService {
     PenaltyCalculation calculatePenalty(Long contractId);
-    List<PenaltyCalculation> getCalculationsForContract(Long contractId);
     PenaltyCalculation getCalculationById(Long id);
+    List<PenaltyCalculation> getCalculationsForContract(Long contractId);
 }
