@@ -29,23 +29,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response, 
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            // 1. Extract JWT from the Authorization header
             String jwt = getJwtFromRequest(request);
 
-            // 2. Validate the token
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                // 3. Get username from token
+                // This method must exist in JwtTokenProvider
                 String username = tokenProvider.getUsernameFromJWT(jwt);
 
-                // 4. Load user details from database
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                
-                // 5. Create authentication object
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // 6. Set the user in the Security Context (This logs them in for this request)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
@@ -55,7 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // Helper method to parse the "Bearer " header
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
