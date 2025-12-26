@@ -1,49 +1,38 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Contract;
 import com.example.demo.entity.BreachReport;
 import com.example.demo.entity.PenaltyCalculation;
-import com.example.demo.repository.ContractRepository;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.BreachReportRepository;
 import com.example.demo.repository.PenaltyCalculationRepository;
 import com.example.demo.service.BreachReportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 
-    private BreachReportRepository breachReportRepository;
-    private PenaltyCalculationRepository penaltyCalculationRepository;
-    private ContractRepository contractRepository;
-
-    public BreachReportServiceImpl() {}
+    @Autowired private BreachReportRepository breachReportRepository;
+    @Autowired private PenaltyCalculationRepository penaltyCalculationRepository;
 
     @Override
     public BreachReport generateReport(Long contractId) {
-        Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new RuntimeException("Contract not found"));
-
         PenaltyCalculation calc = penaltyCalculationRepository
-                .findTopByContractIdOrderByCalculatedAtDesc(contractId)
-                .orElseThrow(() -> new RuntimeException("No penalty calculation"));
+            .findTopByContractIdOrderByCalculatedAtDesc(contractId)
+            .orElseThrow(() -> new ResourceNotFoundException("No calculation found"));
 
-        BreachReport report = BreachReport.builder()
-                .contract(contract)
-                .daysDelayed(calc.getDaysDelayed())
-                .penaltyAmount(calc.getCalculatedPenalty())
-                .build();
-
+        // Use manual instantiation if Builder is still failing in your environment
+        BreachReport report = new BreachReport();
+        report.setContractId(contractId);
+        report.setDaysDelayed(calc.getDaysDelayed());
+        report.setPenaltyAmount(calc.getCalculatedPenalty());
+        
         return breachReportRepository.save(report);
     }
 
     @Override
-    public List<BreachReport> getReportsForContract(Long contractId) {
-        return breachReportRepository.findByContractId(contractId);
-    }
-
-    @Override
-    public List<BreachReport> getAllReports() {
-        return breachReportRepository.findAll();
+    public List<BreachReport> getReportsByContract(Long contractId) {
+        return breachReportRepository.findAll(); 
     }
 }
