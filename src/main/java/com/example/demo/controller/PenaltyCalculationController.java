@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/penalties")
+@SecurityRequirement(name = "bearerAuth")
 public class PenaltyCalculationController {
 
     PenaltyCalculationService penaltyCalculationService;

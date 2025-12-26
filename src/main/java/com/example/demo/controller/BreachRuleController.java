@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/breach-rules")
+@SecurityRequirement(name = "bearerAuth")
 public class BreachRuleController {
 
     BreachRuleService breachRuleService;

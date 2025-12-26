@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reports")
+@SecurityRequirement(name = "bearerAuth")
 public class BreachReportController {
 
     BreachReportService breachReportService;

@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/contracts")
+@SecurityRequirement(name = "bearerAuth")
 public class ContractController {
 
     ContractService contractService;

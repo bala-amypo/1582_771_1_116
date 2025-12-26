@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/delivery-records")
+@SecurityRequirement(name = "bearerAuth")
 public class DeliveryRecordController {
 
     DeliveryRecordService deliveryRecordService;
