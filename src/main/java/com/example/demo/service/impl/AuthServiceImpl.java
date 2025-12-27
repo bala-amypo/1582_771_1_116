@@ -94,8 +94,9 @@ import com.example.demo.dto.JwtResponse;
 import com.example.demo.service.AuthService;
 import org.springframework.stereotype.Service;
 
+
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl implements AuthService  {
 
     @Override
     public JwtResponse login(AuthRequest request) {
