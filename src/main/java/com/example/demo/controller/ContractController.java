@@ -4,11 +4,12 @@ import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contracts")
+@SecurityRequirement(name = "bearerAuth")
 public class ContractController {
 
     private final ContractService contractService;

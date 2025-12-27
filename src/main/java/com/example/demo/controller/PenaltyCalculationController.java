@@ -4,11 +4,12 @@ import com.example.demo.entity.PenaltyCalculation;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/calculations")
+@SecurityRequirement(name = "bearerAuth")
 public class PenaltyCalculationController {
 
     private final PenaltyCalculationService penaltyCalculationService;
