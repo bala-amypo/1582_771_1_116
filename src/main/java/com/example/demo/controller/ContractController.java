@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Contract;
 import com.example.demo.service.ContractService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
@@ -12,11 +12,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class ContractController {
 
-    private final ContractService contractService;
-
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
-    }
+    ContractService contractService;
 
     @PostMapping
     public Contract create(@RequestBody Contract contract) {
