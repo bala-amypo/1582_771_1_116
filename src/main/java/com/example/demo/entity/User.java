@@ -2,27 +2,20 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Getter @Setter
+@Data // This generates getEmail(), getPassword(), etc.
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "users")
+@Builder // This generates the builder() method
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String email;
     private String password;
-
+    
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
-
-    private LocalDateTime createdAt;
 }
