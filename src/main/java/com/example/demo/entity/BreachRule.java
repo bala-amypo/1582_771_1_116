@@ -49,7 +49,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 public class BreachRule {
@@ -59,68 +58,31 @@ public class BreachRule {
     private Long id;
 
     private String ruleName;
-    private Double penaltyPerDay;
-    private Double maxPenaltyPercentage;
-    private Boolean active;
-    private Boolean isDefaultRule;
+    private boolean active;
 
-    @OneToMany(mappedBy = "breachRule")
-    private List<PenaltyCalculation> penaltyCalculations;
+    public BreachRule() {}
 
-    // getters and setters
     public Long getId() {
         return id;
     }
-
+ 
     public void setId(Long id) {
         this.id = id;
     }
-
+ 
     public String getRuleName() {
         return ruleName;
     }
-
+ 
     public void setRuleName(String ruleName) {
         this.ruleName = ruleName;
     }
-
-    public Double getPenaltyPerDay() {
-        return penaltyPerDay;
-    }
-
-    public void setPenaltyPerDay(Double penaltyPerDay) {
-        this.penaltyPerDay = penaltyPerDay;
-    }
-
-    public Double getMaxPenaltyPercentage() {
-        return maxPenaltyPercentage;
-    }
-
-    public void setMaxPenaltyPercentage(Double maxPenaltyPercentage) {
-        this.maxPenaltyPercentage = maxPenaltyPercentage;
-    }
-
-    public Boolean getActive() {
+ 
+    public boolean isActive() {
         return active;
     }
-
-    public void setActive(Boolean active) {
+ 
+    public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public Boolean getIsDefaultRule() {
-        return isDefaultRule;
-    }
-
-    public void setIsDefaultRule(Boolean isDefaultRule) {
-        this.isDefaultRule = isDefaultRule;
-    }
-
-    public List<PenaltyCalculation> getPenaltyCalculations() {
-        return penaltyCalculations;
-    }
-
-    public void setPenaltyCalculations(List<PenaltyCalculation> penaltyCalculations) {
-        this.penaltyCalculations = penaltyCalculations;
     }
 }

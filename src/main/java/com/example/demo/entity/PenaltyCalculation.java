@@ -46,7 +46,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class PenaltyCalculation {
@@ -55,76 +54,23 @@ public class PenaltyCalculation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer daysDelayed;
-    private Double calculatedPenalty;
-    private LocalDateTime calculatedAt;
+    private Double penaltyAmount;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
+    public PenaltyCalculation() {}
 
-    @ManyToOne
-    @JoinColumn(name = "delivery_record_id")
-    private DeliveryRecord deliveryRecord;
-
-    @ManyToOne
-    @JoinColumn(name = "breach_rule_id")
-    private BreachRule breachRule;
-
-    // getters and setters
     public Long getId() {
         return id;
     }
-
+ 
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Integer getDaysDelayed() {
-        return daysDelayed;
+ 
+    public Double getPenaltyAmount() {
+        return penaltyAmount;
     }
-
-    public void setDaysDelayed(Integer daysDelayed) {
-        this.daysDelayed = daysDelayed;
-    }
-
-    public Double getCalculatedPenalty() {
-        return calculatedPenalty;
-    }
-
-    public void setCalculatedPenalty(Double calculatedPenalty) {
-        this.calculatedPenalty = calculatedPenalty;
-    }
-
-    public LocalDateTime getCalculatedAt() {
-        return calculatedAt;
-    }
-
-    public void setCalculatedAt(LocalDateTime calculatedAt) {
-        this.calculatedAt = calculatedAt;
-    }
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
-    public DeliveryRecord getDeliveryRecord() {
-        return deliveryRecord;
-    }
-
-    public void setDeliveryRecord(DeliveryRecord deliveryRecord) {
-        this.deliveryRecord = deliveryRecord;
-    }
-
-    public BreachRule getBreachRule() {
-        return breachRule;
-    }
-
-    public void setBreachRule(BreachRule breachRule) {
-        this.breachRule = breachRule;
+ 
+    public void setPenaltyAmount(Double penaltyAmount) {
+        this.penaltyAmount = penaltyAmount;
     }
 }

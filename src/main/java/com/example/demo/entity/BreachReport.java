@@ -43,7 +43,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class BreachReport {
@@ -52,61 +51,23 @@ public class BreachReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer daysDelayed;
-    private Double penaltyAmount;
-    private String reportStatus;
-    private LocalDateTime generatedAt;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
+    public BreachReport() {}
 
-    // getters and setters
     public Long getId() {
         return id;
     }
-
+ 
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Integer getDaysDelayed() {
-        return daysDelayed;
+ 
+    public String getDescription() {
+        return description;
     }
-
-    public void setDaysDelayed(Integer daysDelayed) {
-        this.daysDelayed = daysDelayed;
-    }
-
-    public Double getPenaltyAmount() {
-        return penaltyAmount;
-    }
-
-    public void setPenaltyAmount(Double penaltyAmount) {
-        this.penaltyAmount = penaltyAmount;
-    }
-
-    public String getReportStatus() {
-        return reportStatus;
-    }
-
-    public void setReportStatus(String reportStatus) {
-        this.reportStatus = reportStatus;
-    }
-
-    public LocalDateTime getGeneratedAt() {
-        return generatedAt;
-    }
-
-    public void setGeneratedAt(LocalDateTime generatedAt) {
-        this.generatedAt = generatedAt;
-    }
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
+ 
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
