@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private static final String SECRET_KEY = "mySecretKey123456";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
 
     public String generateToken(Long userId, String email, Set<String> roles) {
 
@@ -30,6 +30,13 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
+    }
+
+    public Claims getClaims(String token) {   // 🔥 MUST BE PUBLIC
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String getEmailFromToken(String token) {
@@ -52,12 +59,5 @@ public class JwtTokenProvider {
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
-    }
-
-    private Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
     }
 }
