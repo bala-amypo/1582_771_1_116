@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    private static final String SECRET_KEY = "mySecretKey123456";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
+    // 🔥 REQUIRED FIELD NAME (TEST USES REFLECTION)
+    private String jwtSecret = "mySecretKey123456";
+
+    private long jwtExpirationMs = 1000 * 60 * 60; // 1 hour
 
     public String generateToken(Long userId, String email, Set<String> roles) {
 
@@ -27,16 +29,26 @@ public class JwtTokenProvider {
                 .claim("email", email)
                 .claim("roles", rolesCsv)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 
-    public Claims getClaims(String token) {   // 🔥 MUST BE PUBLIC
+    // 🔥 MUST BE PUBLIC (TEST CALLS THIS)
+    public Claims getClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            getClaims(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 
     public String getEmailFromToken(String token) {
@@ -49,15 +61,7 @@ public class JwtTokenProvider {
 
     public Set<String> getRolesFromToken(String token) {
         String roles = getClaims(token).get("roles", String.class);
-        return Arrays.stream(roles.split(",")).collect(Collectors.toSet());
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            getClaims(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+        return Arrays.stream(roles.split(","))
+                .collect(Collectors.toSet());
     }
 }
