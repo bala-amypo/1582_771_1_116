@@ -2,25 +2,52 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.BreachRule;
 import com.example.demo.service.BreachRuleService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/breach-rules")
-@SecurityRequirement(name = "bearerAuth")
 public class BreachRuleController {
 
-    BreachRuleService breachRuleService;
+    private final BreachRuleService breachRuleService;
+
+    public BreachRuleController(BreachRuleService breachRuleService) {
+        this.breachRuleService = breachRuleService;
+    }
 
     @PostMapping
-    public BreachRule create(@RequestBody BreachRule rule) {
-        return breachRuleService.createRule(rule);
+    public ResponseEntity<BreachRule> create(@RequestBody BreachRule rule) {
+        return ResponseEntity.ok(breachRuleService.createRule(rule));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BreachRule> update(
+            @PathVariable Long id,
+            @RequestBody BreachRule rule) {
+        return ResponseEntity.ok(breachRuleService.updateRule(id, rule));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BreachRule> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                breachRuleService.getAllRules()
+                        .stream()
+                        .filter(r -> r.getId().equals(id))
+                        .findFirst()
+                        .orElseThrow()
+        );
     }
 
     @GetMapping
-    public List<BreachRule> list() {
-        return breachRuleService.getAllRules();
+    public ResponseEntity<List<BreachRule>> getAll() {
+        return ResponseEntity.ok(breachRuleService.getAllRules());
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
+        breachRuleService.deactivateRule(id);
+        return ResponseEntity.ok().build();
     }
 }

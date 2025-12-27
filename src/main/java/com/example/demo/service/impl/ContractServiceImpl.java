@@ -6,35 +6,48 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.ContractService;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class ContractServiceImpl implements ContractService {
 
-    ContractRepository contractRepository;
-    DeliveryRecordRepository deliveryRecordRepository;
+    private ContractRepository contractRepository;
+    private DeliveryRecordRepository deliveryRecordRepository;
+
+    // REQUIRED for TestNG
+    public ContractServiceImpl() {
+    }
+
+    // Used by Spring
+    public ContractServiceImpl(ContractRepository contractRepository,
+                               DeliveryRecordRepository deliveryRecordRepository) {
+        this.contractRepository = contractRepository;
+        this.deliveryRecordRepository = deliveryRecordRepository;
+    }
 
     @Override
     public Contract createContract(Contract contract) {
         if (contract.getBaseContractValue() == null ||
-            contract.getBaseContractValue().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Base contract value");
+                contract.getBaseContractValue().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Base contract value must be greater than zero");
         }
         return contractRepository.save(contract);
     }
 
     @Override
-    public Contract updateContract(Long id, Contract data) {
-        Contract c = contractRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+    public Contract updateContract(Long id, Contract updated) {
+        Contract existing = getContractById(id);
 
-        c.setTitle(data.getTitle());
-        c.setCounterpartyName(data.getCounterpartyName());
-        c.setAgreedDeliveryDate(data.getAgreedDeliveryDate());
-        c.setBaseContractValue(data.getBaseContractValue());
-        return contractRepository.save(c);
+        existing.setTitle(updated.getTitle());
+        existing.setCounterpartyName(updated.getCounterpartyName());
+        existing.setAgreedDeliveryDate(updated.getAgreedDeliveryDate());
+        existing.setBaseContractValue(updated.getBaseContractValue());
+
+        return contractRepository.save(existing);
     }
 
     @Override
@@ -49,19 +62,23 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void updateContractStatus(Long id) {
-        Contract c = contractRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+    public Contract updateContractStatus(Long id) {
+        Contract contract = getContractById(id);
 
-        DeliveryRecord dr = deliveryRecordRepository
-                .findFirstByContractIdOrderByDeliveryDateDesc(id)
-                .orElse(null);
+        Optional<DeliveryRecord> latest =
+                deliveryRecordRepository.findFirstByContractIdOrderByDeliveryDateDesc(id);
 
-        if (dr != null && dr.getDeliveryDate().isAfter(c.getAgreedDeliveryDate())) {
-            c.setStatus("BREACHED");
+        if (latest.isPresent()) {
+            if (latest.get().getDeliveryDate()
+                    .isAfter(contract.getAgreedDeliveryDate())) {
+                contract.setStatus("BREACHED");
+            } else {
+                contract.setStatus("ACTIVE");
+            }
         } else {
-            c.setStatus("ACTIVE");
+            contract.setStatus("ACTIVE");
         }
-        contractRepository.save(c);
+
+        return contractRepository.save(contract);
     }
 }
