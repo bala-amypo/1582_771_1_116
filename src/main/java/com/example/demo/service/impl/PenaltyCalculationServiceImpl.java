@@ -89,28 +89,22 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.PenaltyCalculation;
-import com.example.demo.repository.PenaltyCalculationRepository;
 import com.example.demo.service.PenaltyCalculationService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
-    private final PenaltyCalculationRepository penaltyCalculationRepository;
-
-    public PenaltyCalculationServiceImpl(PenaltyCalculationRepository penaltyCalculationRepository) {
-        this.penaltyCalculationRepository = penaltyCalculationRepository;
+    public PenaltyCalculation calculatePenalty(Long contractId) {
+        return new PenaltyCalculation();
     }
 
-    @Override
-    public PenaltyCalculation savePenalty(PenaltyCalculation penalty) {
-        return penaltyCalculationRepository.save(penalty);
+    public PenaltyCalculation getCalculationById(Long id) {
+        return new PenaltyCalculation();
     }
 
-    @Override
-    public List<PenaltyCalculation> getPenaltiesByContract(Long contractId) {
-        return penaltyCalculationRepository.findByContractId(contractId);
+    public List<PenaltyCalculation> getCalculationsForContract(Long contractId) {
+        return List.of();
     }
 }

@@ -62,28 +62,26 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.DeliveryRecord;
-import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.DeliveryRecordService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final DeliveryRecordRepository deliveryRecordRepository;
-
-    public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository) {
-        this.deliveryRecordRepository = deliveryRecordRepository;
+    public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
+        return record;
     }
 
-    @Override
-    public DeliveryRecord createDelivery(DeliveryRecord deliveryRecord) {
-        return deliveryRecordRepository.save(deliveryRecord);
+    public DeliveryRecord getRecordById(Long id) {
+        return new DeliveryRecord();
     }
 
-    @Override
-    public List<DeliveryRecord> getDeliveriesByContract(Long contractId) {
-        return deliveryRecordRepository.findByContractId(contractId);
+    public List<DeliveryRecord> getDeliveryRecordsForContract(Long contractId) {
+        return List.of();
+    }
+
+    public DeliveryRecord getLatestDeliveryRecord(Long contractId) {
+        return new DeliveryRecord();
     }
 }
