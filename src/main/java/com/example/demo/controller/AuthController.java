@@ -59,3 +59,24 @@ public class AuthController {
         return new AuthResponse(token);
     }
 }
+
+
+
+@PostMapping("/register")
+public Map<String, String> register(@RequestBody RegisterRequest request) {
+
+    User user = new User();
+    user.setEmail(request.getEmail());
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setRoles(Set.of("ROLE_USER"));
+
+    User savedUser = userRepository.save(user);
+
+    String token = jwtTokenProvider.generateToken(
+            savedUser.getId(),
+            savedUser.getEmail(),
+            savedUser.getRoles()
+    );
+
+    return Map.of("token", token);
+}
