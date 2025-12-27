@@ -90,7 +90,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.JwtResponse;
 import com.example.demo.service.AuthService;
 import org.springframework.stereotype.Service;
 
@@ -98,12 +98,14 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     @Override
-    public AuthResponse login(AuthRequest request) {
-        return new AuthResponse("dummy-jwt-token");
+    public JwtResponse login(AuthRequest request) {
+        // In real application, validate email/password and generate JWT
+        return new JwtResponse("dummy-jwt-token", 1L, request.getEmail(), "USER");
     }
 
     @Override
-    public AuthResponse register(AuthRequest request) {
-        return new AuthResponse("dummy-jwt-token");
+    public JwtResponse register(AuthRequest request) {
+        // In real application, save user and generate JWT
+        return new JwtResponse("dummy-jwt-token", 1L, request.getEmail(), "USER");
     }
 }

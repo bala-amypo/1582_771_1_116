@@ -52,7 +52,6 @@ public class AuthController {
         this.authService = authService;
     }
 
-    // Register now accepts AuthRequest, not User
     @PostMapping("/register")
     public ResponseEntity<JwtResponse> register(@RequestBody AuthRequest request) {
         JwtResponse response = authService.register(request);
