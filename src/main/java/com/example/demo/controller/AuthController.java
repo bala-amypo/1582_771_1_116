@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@SecurityRequirements // 🔓 This overrides the global setting and removes all locks for this controller
 public class AuthController {
 
     private final AuthService authService;
