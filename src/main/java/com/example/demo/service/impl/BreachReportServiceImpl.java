@@ -4,28 +4,42 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BreachReportServiceImpl implements BreachReportService {
 
-    BreachReportRepository breachReportRepository;
-    PenaltyCalculationRepository penaltyCalculationRepository;
-    ContractRepository contractRepository;
+    private BreachReportRepository breachReportRepository;
+    private PenaltyCalculationRepository penaltyCalculationRepository;
+    private ContractRepository contractRepository;
+
+    public BreachReportServiceImpl() {
+    }
+
+    public BreachReportServiceImpl(BreachReportRepository breachReportRepository,
+                                   PenaltyCalculationRepository penaltyCalculationRepository,
+                                   ContractRepository contractRepository) {
+        this.breachReportRepository = breachReportRepository;
+        this.penaltyCalculationRepository = penaltyCalculationRepository;
+        this.contractRepository = contractRepository;
+    }
 
     @Override
     public BreachReport generateReport(Long contractId) {
-        Contract c = contractRepository.findById(contractId)
+
+        Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
 
-        PenaltyCalculation pc = penaltyCalculationRepository
+        PenaltyCalculation calc = penaltyCalculationRepository
                 .findTopByContractIdOrderByCalculatedAtDesc(contractId)
                 .orElseThrow(() -> new ResourceNotFoundException("No penalty calculation"));
 
         BreachReport report = BreachReport.builder()
-                .contract(c)
-                .daysDelayed(pc.getDaysDelayed())
-                .penaltyAmount(pc.getCalculatedPenalty())
+                .contract(contract)
+                .daysDelayed(calc.getDaysDelayed())
+                .penaltyAmount(calc.getCalculatedPenalty())
                 .build();
 
         return breachReportRepository.save(report);
