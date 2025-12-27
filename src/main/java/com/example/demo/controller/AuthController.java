@@ -6,6 +6,8 @@ import com.example.demo.entity.User;
 import com.example.demo.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+
 
 @RestController
 @RequestMapping("/auth")
