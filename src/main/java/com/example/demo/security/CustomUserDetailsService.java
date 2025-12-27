@@ -13,10 +13,13 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    new CustomUserDetailsService()
+    private UserRepository userRepository;
 
+    // 🔥 REQUIRED BY TESTS
+    public CustomUserDetailsService() {
+    }
 
+    // 🔥 REQUIRED BY SPRING
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
