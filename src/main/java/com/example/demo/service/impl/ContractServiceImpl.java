@@ -111,7 +111,7 @@ public class ContractServiceImpl implements ContractService {
 
         existing.setContractNumber(contract.getContractNumber());
         existing.setTitle(contract.getTitle());
-        existing.setCounterpartyName(contract.getCounterpartyName());
+        existing.setCounterpartyName(contract.getCounterpartyName()); // now valid
         existing.setAgreedDeliveryDate(contract.getAgreedDeliveryDate());
         existing.setBaseContractValue(contract.getBaseContractValue());
         existing.setStatus(contract.getStatus());

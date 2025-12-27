@@ -36,16 +36,14 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.JwtResponse;
-import com.example.demo.entity.User;
 import com.example.demo.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-// 🛠️ ADD THIS MISSING IMPORT
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 
 @RestController
 @RequestMapping("/auth")
-@SecurityRequirements // 🔓 Removes lock symbols from all methods in this controller
+@SecurityRequirements
 public class AuthController {
 
     private final AuthService authService;
@@ -54,13 +52,16 @@ public class AuthController {
         this.authService = authService;
     }
 
+    // Register now accepts AuthRequest, not User
     @PostMapping("/register")
-    public ResponseEntity<JwtResponse> register(@RequestBody User user) {
-        return ResponseEntity.ok(authService.register(user));
+    public ResponseEntity<JwtResponse> register(@RequestBody AuthRequest request) {
+        JwtResponse response = authService.register(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+        JwtResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
 }
