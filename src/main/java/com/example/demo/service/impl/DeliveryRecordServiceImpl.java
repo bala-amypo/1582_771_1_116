@@ -1,24 +1,42 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.Contract;
 import com.example.demo.entity.DeliveryRecord;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.DeliveryRecordService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    DeliveryRecordRepository deliveryRecordRepository;
-    ContractRepository contractRepository;
+    private final DeliveryRecordRepository deliveryRecordRepository;
+    private final ContractRepository contractRepository;
+
+    public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository,
+                                     ContractRepository contractRepository) {
+        this.deliveryRecordRepository = deliveryRecordRepository;
+        this.contractRepository = contractRepository;
+    }
 
     @Override
     public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
+        // --- Ensure delivery date is not in the future ---
         if (record.getDeliveryDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("in the future");
+            throw new IllegalArgumentException("Delivery date cannot be in the future");
         }
+
+        // --- Fix: attach existing contract if provided ---
+        if (record.getContract() != null && record.getContract().getId() != null) {
+            Contract existingContract = contractRepository.findById(record.getContract().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+            record.setContract(existingContract);
+        }
+
         return deliveryRecordRepository.save(record);
     }
 
