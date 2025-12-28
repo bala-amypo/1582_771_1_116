@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.BreachReport;
 import com.example.demo.service.BreachReportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequestMapping("/api/reports")
 public class BreachReportController {
 
+    @Autowired
     BreachReportService breachReportService;
 
     @PostMapping("/generate/{contractId}")
