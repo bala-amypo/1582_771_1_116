@@ -6,108 +6,76 @@
 // import java.math.BigDecimal;
 // import java.time.LocalDate;
 // import java.time.LocalDateTime;
-// import java.util.List;
 
 // @Entity
-// @Table(name = "contracts")
-// @Data
-// @Builder
+// @Getter @Setter
 // @NoArgsConstructor
 // @AllArgsConstructor
+// @Builder
 // public class Contract {
 
 //     @Id
 //     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //     private Long id;
 
-//     @Column(unique = true, nullable = false)
 //     private String contractNumber;
-
-//     @Column(nullable = false)
 //     private String title;
-
-//     @Column(nullable = false)
 //     private String counterpartyName;
-
-//     @Column(nullable = false)
 //     private LocalDate agreedDeliveryDate;
-
-//     @Column(nullable = false)
 //     private BigDecimal baseContractValue;
-
-//     @Column(nullable = false)
-//     private String status;
+//     private String status = "ACTIVE";
 
 //     private LocalDateTime createdAt;
 //     private LocalDateTime updatedAt;
-
-//     /* ---------------- Relationships ---------------- */
-
-//     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
-//     private List<DeliveryRecord> deliveryRecords;
-
-//     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
-//     private List<PenaltyCalculation> penaltyCalculations;
-
-//     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
-//     private List<BreachReport> breachReports;
-
-//     /* ---------------- Lifecycle ---------------- */
-
-//     @PrePersist
-//     public void onCreate() {
-//         this.createdAt = LocalDateTime.now();
-//         this.updatedAt = LocalDateTime.now();
-//         if (this.status == null) {
-//             this.status = "ACTIVE";
-//         }
-//     }
-
-//     @PreUpdate
-//     public void onUpdate() {
-//         this.updatedAt = LocalDateTime.now();
-//     }
 // }
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "contracts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "contract_number", nullable = false, unique = true)
     private String contractNumber;
+
+    @Column(nullable = false)
     private String title;
-    private String counterpartyName; // ✅ added field
-    private Double baseContractValue;
+
+    @Column(name = "counterparty_name", nullable = false)
+    private String counterpartyName;
+
+    @Column(name = "agreed_delivery_date", nullable = false)
     private LocalDate agreedDeliveryDate;
-    private String status;
 
-    public Contract() {}
+    @Column(name = "base_contract_value", nullable = false)
+    private BigDecimal baseContractValue;
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Builder.Default
+    @Column(nullable = false)
+    private String status = "ACTIVE";
 
-    public String getContractNumber() { return contractNumber; }
-    public void setContractNumber(String contractNumber) { this.contractNumber = contractNumber; }
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getCounterpartyName() { return counterpartyName; } // ✅ getter
-    public void setCounterpartyName(String counterpartyName) { this.counterpartyName = counterpartyName; } // ✅ setter
-
-    public Double getBaseContractValue() { return baseContractValue; }
-    public void setBaseContractValue(Double baseContractValue) { this.baseContractValue = baseContractValue; }
-
-    public LocalDate getAgreedDeliveryDate() { return agreedDeliveryDate; }
-    public void setAgreedDeliveryDate(LocalDate agreedDeliveryDate) { this.agreedDeliveryDate = agreedDeliveryDate; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
