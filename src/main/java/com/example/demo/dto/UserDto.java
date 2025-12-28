@@ -1,20 +1,11 @@
-// package com.example.demo.dto;
-
-// import lombok.Data;
-
-// @Data
-// public class RegisterRequest {
-//     private String email;
-//     private String password;
-// }
 package com.example.demo.dto;
 
-public class RegisterRequest {
+public class UserDto {
 
     private String email;
     private String password;
 
-    public RegisterRequest() {
+    public UserDto() {
     }
 
     public String getEmail() {
