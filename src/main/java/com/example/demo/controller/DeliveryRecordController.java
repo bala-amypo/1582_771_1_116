@@ -10,7 +10,11 @@ import java.util.List;
 @RequestMapping("/api/delivery-records")
 public class DeliveryRecordController {
 
-    DeliveryRecordService deliveryRecordService;
+    private final DeliveryRecordService deliveryRecordService;
+
+    public DeliveryRecordController(DeliveryRecordService deliveryRecordService) {
+        this.deliveryRecordService = deliveryRecordService;
+    }
 
     @PostMapping
     public DeliveryRecord create(@RequestBody DeliveryRecord record) {
