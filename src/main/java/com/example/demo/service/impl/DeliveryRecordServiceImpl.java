@@ -6,6 +6,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.DeliveryRecordRepository;
 import com.example.demo.service.DeliveryRecordService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,14 +15,17 @@ import java.util.List;
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    DeliveryRecordRepository deliveryRecordRepository;
-    ContractRepository contractRepository;
+    @Autowired
+    private DeliveryRecordRepository deliveryRecordRepository;
 
-    // No-arg constructor (needed for test cases)
+    @Autowired
+    private ContractRepository contractRepository;
+
+    // No-arg constructor (KEEP for tests)
     public DeliveryRecordServiceImpl() {
     }
 
-    // All-args constructor (used by Spring for dependency injection)
+    // All-args constructor (KEEP)
     public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository,
                                      ContractRepository contractRepository) {
         this.deliveryRecordRepository = deliveryRecordRepository;
@@ -30,14 +34,26 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
     @Override
     public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
-        if (record.getDeliveryDate().isAfter(LocalDate.now())) {
+
+        // ✅ ensure new entity
+        record.setId(null);
+
+        // ✅ delivery date validation (existing rule)
+        if (record.getDeliveryDate() != null &&
+            record.getDeliveryDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Delivery date cannot be in the future");
         }
 
+        // ✅ SAFE contract handling
         if (record.getContract() != null && record.getContract().getId() != null) {
-            Contract existingContract = contractRepository.findById(record.getContract().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+
+            Contract existingContract = contractRepository.findById(
+                    record.getContract().getId()
+            ).orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+
             record.setContract(existingContract);
+        } else {
+            throw new ResourceNotFoundException("Contract is required");
         }
 
         return deliveryRecordRepository.save(record);
