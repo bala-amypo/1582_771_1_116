@@ -4,14 +4,27 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service // ✅ VERY IMPORTANT
 public class BreachReportServiceImpl implements BreachReportService {
 
-    BreachReportRepository breachReportRepository;
-    PenaltyCalculationRepository penaltyCalculationRepository;
-    ContractRepository contractRepository;
+    private final BreachReportRepository breachReportRepository;
+    private final PenaltyCalculationRepository penaltyCalculationRepository;
+    private final ContractRepository contractRepository;
+
+    // ✅ Constructor Injection (REQUIRED)
+    public BreachReportServiceImpl(
+            BreachReportRepository breachReportRepository,
+            PenaltyCalculationRepository penaltyCalculationRepository,
+            ContractRepository contractRepository
+    ) {
+        this.breachReportRepository = breachReportRepository;
+        this.penaltyCalculationRepository = penaltyCalculationRepository;
+        this.contractRepository = contractRepository;
+    }
 
     @Override
     public BreachReport generateReport(Long contractId) {
