@@ -1,46 +1,17 @@
-// package com.example.demo.dto;
-
-// import lombok.Data;
-
-// import java.math.BigDecimal;
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-
-// @Data
-// public class ContractDto {
-//     private Long id;
-//     private String contractNumber;
-//     private String title;
-//     private String counterpartyName;
-//     private LocalDate agreedDeliveryDate;
-//     private BigDecimal baseContractValue;
-//     private String status;
-//     private LocalDateTime createdAt;
-// }
 package com.example.demo.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ContractDto {
 
-    private Long id;
     private String contractNumber;
     private String title;
     private String counterpartyName;
     private LocalDate agreedDeliveryDate;
-    private Double baseContractValue;
-    private String status;
+    private BigDecimal baseContractValue;
 
-    public ContractDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public ContractDto() {}
 
     public String getContractNumber() {
         return contractNumber;
@@ -74,19 +45,11 @@ public class ContractDto {
         this.agreedDeliveryDate = agreedDeliveryDate;
     }
 
-    public Double getBaseContractValue() {
+    public BigDecimal getBaseContractValue() {
         return baseContractValue;
     }
 
-    public void setBaseContractValue(Double baseContractValue) {
+    public void setBaseContractValue(BigDecimal baseContractValue) {
         this.baseContractValue = baseContractValue;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

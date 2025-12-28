@@ -1,37 +1,14 @@
-// package com.example.demo.dto;
-
-// import lombok.Data;
-
-// import java.time.LocalDate;
-
-// @Data
-// public class DeliveryRecordDto {
-//     private Long id;
-//     private Long contractId;
-//     private LocalDate deliveryDate;
-//     private String notes;
-// }
 package com.example.demo.dto;
 
 import java.time.LocalDate;
 
 public class DeliveryRecordDto {
 
-    private Long id;
     private Long contractId;
     private LocalDate deliveryDate;
     private String notes;
 
-    public DeliveryRecordDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public DeliveryRecordDto() {}
 
     public Long getContractId() {
         return contractId;

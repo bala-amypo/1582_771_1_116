@@ -1,38 +1,15 @@
-// package com.example.demo.dto;
-
-// import lombok.Data;
-
-// import java.math.BigDecimal;
-
-// @Data
-// public class BreachRuleDto {
-//     private Long id;
-//     private String ruleName;
-//     private BigDecimal penaltyPerDay;
-//     private Double maxPenaltyPercentage;
-//     private Boolean active;
-//     private Boolean isDefaultRule;
-// }
 package com.example.demo.dto;
+
+import java.math.BigDecimal;
 
 public class BreachRuleDto {
 
-    private Long id;
     private String ruleName;
-    private Double penaltyPerDay;
+    private BigDecimal penaltyPerDay;
     private Double maxPenaltyPercentage;
-    private boolean active;
-    private boolean defaultRule;
+    private Boolean isDefaultRule;
 
     public BreachRuleDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getRuleName() {
@@ -43,11 +20,11 @@ public class BreachRuleDto {
         this.ruleName = ruleName;
     }
 
-    public Double getPenaltyPerDay() {
+    public BigDecimal getPenaltyPerDay() {
         return penaltyPerDay;
     }
 
-    public void setPenaltyPerDay(Double penaltyPerDay) {
+    public void setPenaltyPerDay(BigDecimal penaltyPerDay) {
         this.penaltyPerDay = penaltyPerDay;
     }
 
@@ -59,19 +36,11 @@ public class BreachRuleDto {
         this.maxPenaltyPercentage = maxPenaltyPercentage;
     }
 
-    public boolean isActive() {
-        return active;
+    public Boolean getIsDefaultRule() {
+        return isDefaultRule;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isDefaultRule() {
-        return defaultRule;
-    }
-
-    public void setDefaultRule(boolean defaultRule) {
-        this.defaultRule = defaultRule;
+    public void setIsDefaultRule(Boolean isDefaultRule) {
+        this.isDefaultRule = isDefaultRule;
     }
 }
