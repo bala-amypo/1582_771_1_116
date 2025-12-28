@@ -15,20 +15,16 @@ import java.util.List;
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
     @Autowired
-    private ContractRepository contractRepository;
+    ContractRepository contractRepository;
 
     @Autowired
-    private DeliveryRecordRepository deliveryRecordRepository;
+    DeliveryRecordRepository deliveryRecordRepository;
 
     @Autowired
-    private BreachRuleRepository breachRuleRepository;
+    BreachRuleRepository breachRuleRepository;
 
     @Autowired
-    private PenaltyCalculationRepository penaltyCalculationRepository;
-
-    // KEEP no-arg constructor
-    public PenaltyCalculationServiceImpl() {
-    }
+    PenaltyCalculationRepository penaltyCalculationRepository;
 
     @Override
     public PenaltyCalculation calculatePenalty(Long contractId) {
@@ -56,8 +52,7 @@ public class PenaltyCalculationServiceImpl implements PenaltyCalculationService 
                 c.getBaseContractValue()
                         .multiply(BigDecimal.valueOf(rule.getMaxPenaltyPercentage() / 100));
 
-        BigDecimal finalPenalty =
-                rawPenalty.min(maxPenalty);
+        BigDecimal finalPenalty = rawPenalty.min(maxPenalty);
 
         PenaltyCalculation pc = PenaltyCalculation.builder()
                 .contract(c)

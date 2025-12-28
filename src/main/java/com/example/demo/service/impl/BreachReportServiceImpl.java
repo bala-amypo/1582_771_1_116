@@ -13,17 +13,13 @@ import java.util.List;
 public class BreachReportServiceImpl implements BreachReportService {
 
     @Autowired
-    private BreachReportRepository breachReportRepository;
+    BreachReportRepository breachReportRepository;
 
     @Autowired
-    private PenaltyCalculationRepository penaltyCalculationRepository;
+    PenaltyCalculationRepository penaltyCalculationRepository;
 
     @Autowired
-    private ContractRepository contractRepository;
-
-    // KEEP no-arg constructor (for tests)
-    public BreachReportServiceImpl() {
-    }
+    ContractRepository contractRepository;
 
     @Override
     public BreachReport generateReport(Long contractId) {
