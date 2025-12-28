@@ -1,54 +1,24 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.BreachRule;
-import com.example.demo.service.BreachRuleService;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.entity.BreachReport;
+import com.example.demo.service.BreachReportService;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/breach-rules")
-@SecurityRequirement(name = "bearerAuth")
-public class BreachRuleController {
+@RequestMapping("/api/reports")
+public class BreachReportController {
 
-    private final BreachRuleService breachRuleService;
+    BreachReportService breachReportService;
 
-    public BreachRuleController(BreachRuleService breachRuleService) {
-        this.breachRuleService = breachRuleService;
-    }
-
-    @PostMapping
-    public ResponseEntity<BreachRule> create(@RequestBody BreachRule rule) {
-        return ResponseEntity.ok(breachRuleService.createRule(rule));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<BreachRule> update(
-            @PathVariable Long id,
-            @RequestBody BreachRule rule) {
-        return ResponseEntity.ok(breachRuleService.updateRule(id, rule));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<BreachRule> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                breachRuleService.getAllRules()
-                        .stream()
-                        .filter(r -> r.getId().equals(id))
-                        .findFirst()
-                        .orElseThrow()
-        );
+    @PostMapping("/generate/{contractId}")
+    public BreachReport generate(@PathVariable Long contractId) {
+        return breachReportService.generateReport(contractId);
     }
 
     @GetMapping
-    public ResponseEntity<List<BreachRule>> getAll() {
-        return ResponseEntity.ok(breachRuleService.getAllRules());
-    }
-
-    @PutMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
-        breachRuleService.deactivateRule(id);
-        return ResponseEntity.ok().build();
+    public List<BreachReport> list() {
+        return breachReportService.getAllReports();
     }
 }
