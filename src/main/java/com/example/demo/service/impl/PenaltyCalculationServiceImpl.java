@@ -4,7 +4,6 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.PenaltyCalculationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,20 +13,21 @@ import java.util.List;
 @Service
 public class PenaltyCalculationServiceImpl implements PenaltyCalculationService {
 
-    @Autowired
-    private ContractRepository contractRepository;
+    private final ContractRepository contractRepository;
+    private final DeliveryRecordRepository deliveryRecordRepository;
+    private final BreachRuleRepository breachRuleRepository;
+    private final PenaltyCalculationRepository penaltyCalculationRepository;
 
-    @Autowired
-    private DeliveryRecordRepository deliveryRecordRepository;
+    public PenaltyCalculationServiceImpl(
+            ContractRepository contractRepository,
+            DeliveryRecordRepository deliveryRecordRepository,
+            BreachRuleRepository breachRuleRepository,
+            PenaltyCalculationRepository penaltyCalculationRepository) {
 
-    @Autowired
-    private BreachRuleRepository breachRuleRepository;
-
-    @Autowired
-    private PenaltyCalculationRepository penaltyCalculationRepository;
-
-    // KEEP no-arg constructor
-    public PenaltyCalculationServiceImpl() {
+        this.contractRepository = contractRepository;
+        this.deliveryRecordRepository = deliveryRecordRepository;
+        this.breachRuleRepository = breachRuleRepository;
+        this.penaltyCalculationRepository = penaltyCalculationRepository;
     }
 
     @Override
@@ -56,8 +56,7 @@ public class PenaltyCalculationServiceImpl implements PenaltyCalculationService 
                 c.getBaseContractValue()
                         .multiply(BigDecimal.valueOf(rule.getMaxPenaltyPercentage() / 100));
 
-        BigDecimal finalPenalty =
-                rawPenalty.min(maxPenalty);
+        BigDecimal finalPenalty = rawPenalty.min(maxPenalty);
 
         PenaltyCalculation pc = PenaltyCalculation.builder()
                 .contract(c)

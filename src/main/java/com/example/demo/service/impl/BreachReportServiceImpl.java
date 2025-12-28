@@ -4,7 +4,6 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,17 +11,18 @@ import java.util.List;
 @Service
 public class BreachReportServiceImpl implements BreachReportService {
 
-    @Autowired
-    private BreachReportRepository breachReportRepository;
+    private final BreachReportRepository breachReportRepository;
+    private final PenaltyCalculationRepository penaltyCalculationRepository;
+    private final ContractRepository contractRepository;
 
-    @Autowired
-    private PenaltyCalculationRepository penaltyCalculationRepository;
+    public BreachReportServiceImpl(
+            BreachReportRepository breachReportRepository,
+            PenaltyCalculationRepository penaltyCalculationRepository,
+            ContractRepository contractRepository) {
 
-    @Autowired
-    private ContractRepository contractRepository;
-
-    // KEEP no-arg constructor (for tests)
-    public BreachReportServiceImpl() {
+        this.breachReportRepository = breachReportRepository;
+        this.penaltyCalculationRepository = penaltyCalculationRepository;
+        this.contractRepository = contractRepository;
     }
 
     @Override
