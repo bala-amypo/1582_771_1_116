@@ -29,7 +29,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(List.of(
-                        new Server().url("https://9106.pro604cr.amypo.ai/")
+                        new Server().url("https://9311.pro604cr.amypo.ai/")
                 ));
     }
 }
@@ -60,7 +60,7 @@ public class OpenApiConfig {
 //     public OpenAPI customOpenAPI() {
 //         return new OpenAPI()
 //                 .servers(List.of(
-//                         new Server().url("https://9311.pro604cr.amypo.ai/")
+//                         new Server().url("https://9106.pro604cr.amypo.ai/")
 //                 ));
 //     }
 // }
