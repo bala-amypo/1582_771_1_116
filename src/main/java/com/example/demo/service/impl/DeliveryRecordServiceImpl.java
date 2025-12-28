@@ -14,9 +14,14 @@ import java.util.List;
 @Service
 public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final DeliveryRecordRepository deliveryRecordRepository;
-    private final ContractRepository contractRepository;
+    DeliveryRecordRepository deliveryRecordRepository;
+    ContractRepository contractRepository;
 
+    // No-arg constructor (needed for test cases)
+    public DeliveryRecordServiceImpl() {
+    }
+
+    // All-args constructor (used by Spring for dependency injection)
     public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository,
                                      ContractRepository contractRepository) {
         this.deliveryRecordRepository = deliveryRecordRepository;
@@ -25,12 +30,10 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
     @Override
     public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
-        // --- Ensure delivery date is not in the future ---
         if (record.getDeliveryDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Delivery date cannot be in the future");
         }
 
-        // --- Fix: attach existing contract if provided ---
         if (record.getContract() != null && record.getContract().getId() != null) {
             Contract existingContract = contractRepository.findById(record.getContract().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
