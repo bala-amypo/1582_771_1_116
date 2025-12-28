@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reports")
-public class BreachReportController {
+public class BreachRuleController {
 
     BreachReportService breachReportService;
 
