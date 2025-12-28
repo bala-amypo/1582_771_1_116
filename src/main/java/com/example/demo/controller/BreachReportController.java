@@ -10,15 +10,21 @@ import java.util.List;
 @RequestMapping("/api/reports")
 public class BreachReportController {
 
-    BreachReportService breachReportService;
+    private final BreachReportService breachReportService;
 
-    @PostMapping("/generate/{contractId}")
-    public BreachReport generate(@PathVariable Long contractId) {
-        return breachReportService.generateReport(contractId);
+    public BreachReportController(BreachReportService breachReportService) {
+        this.breachReportService = breachReportService;
     }
 
+    // GET /api/reports
     @GetMapping
     public List<BreachReport> list() {
         return breachReportService.getAllReports();
+    }
+
+    // GET /api/reports/{id}
+    @GetMapping("/{id}")
+    public BreachReport getById(@PathVariable Long id) {
+        return breachReportService.getReportById(id);
     }
 }

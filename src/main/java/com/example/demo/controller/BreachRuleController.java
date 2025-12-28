@@ -1,24 +1,30 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.BreachReport;
-import com.example.demo.service.BreachReportService;
+import com.example.demo.entity.BreachRule;
+import com.example.demo.repository.BreachRuleRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api/breach-rules") // 🔴 FIXED PATH (NO CONFLICT)
 public class BreachRuleController {
 
-    BreachReportService breachReportService;
+    private final BreachRuleRepository breachRuleRepository;
 
-    @PostMapping("/generate/{contractId}")
-    public BreachReport generate(@PathVariable Long contractId) {
-        return breachReportService.generateReport(contractId);
+    public BreachRuleController(BreachRuleRepository breachRuleRepository) {
+        this.breachRuleRepository = breachRuleRepository;
     }
 
+    // GET /api/breach-rules
     @GetMapping
-    public List<BreachReport> list() {
-        return breachReportService.getAllReports();
+    public List<BreachRule> list() {
+        return breachRuleRepository.findAll();
+    }
+
+    // GET /api/breach-rules/{id}
+    @GetMapping("/{id}")
+    public BreachRule getById(@PathVariable Long id) {
+        return breachRuleRepository.findById(id).orElse(null);
     }
 }
