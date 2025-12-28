@@ -4,37 +4,17 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.BreachReportService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class BreachReportServiceImpl implements BreachReportService {
 
-    private BreachReportRepository breachReportRepository;
-    private PenaltyCalculationRepository penaltyCalculationRepository;
-    private ContractRepository contractRepository;
-
-    // ✅ REQUIRED BY AUTOGRADER TEST (DO NOT REMOVE)
-    public BreachReportServiceImpl() {
-        // intentionally empty
-    }
-
-    // ✅ REQUIRED BY SPRING
-    public BreachReportServiceImpl(
-            BreachReportRepository breachReportRepository,
-            PenaltyCalculationRepository penaltyCalculationRepository,
-            ContractRepository contractRepository
-    ) {
-        this.breachReportRepository = breachReportRepository;
-        this.penaltyCalculationRepository = penaltyCalculationRepository;
-        this.contractRepository = contractRepository;
-    }
+    BreachReportRepository breachReportRepository;
+    PenaltyCalculationRepository penaltyCalculationRepository;
+    ContractRepository contractRepository;
 
     @Override
     public BreachReport generateReport(Long contractId) {
-        if (contractRepository == null) return null; // test safety
-
         Contract c = contractRepository.findById(contractId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
 
@@ -53,19 +33,17 @@ public class BreachReportServiceImpl implements BreachReportService {
 
     @Override
     public BreachReport getReportById(Long id) {
-        if (breachReportRepository == null) return null;
-        return breachReportRepository.findById(id).orElse(null);
+        return breachReportRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Report not found"));
     }
 
     @Override
     public List<BreachReport> getReportsForContract(Long contractId) {
-        if (breachReportRepository == null) return List.of();
         return breachReportRepository.findByContractId(contractId);
     }
 
     @Override
     public List<BreachReport> getAllReports() {
-        if (breachReportRepository == null) return List.of();
         return breachReportRepository.findAll();
     }
 }
