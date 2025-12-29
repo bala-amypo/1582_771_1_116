@@ -14,13 +14,11 @@ public class BreachRuleController {
     @Autowired
     private BreachRuleService breachRuleService;
 
-    // CREATE
     @PostMapping
     public BreachRule create(@RequestBody BreachRule rule) {
         return breachRuleService.createRule(rule);
     }
 
-    // UPDATE
     @PutMapping("/{id}")
     public BreachRule update(
             @PathVariable Long id,
@@ -29,19 +27,17 @@ public class BreachRuleController {
         return breachRuleService.updateRule(id, rule);
     }
 
-    // DEACTIVATE
+
     @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
         breachRuleService.deactivateRule(id);
     }
 
-    // GET ALL
     @GetMapping
     public List<BreachRule> getAll() {
         return breachRuleService.getAllRules();
     }
 
-    // GET ACTIVE DEFAULT RULE
     @GetMapping("/active")
     public BreachRule getActiveDefault() {
         return breachRuleService.getActiveDefaultOrFirst();
