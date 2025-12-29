@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // constructor injection (MANDATORY)
+
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-        // encode password before saving
+    
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

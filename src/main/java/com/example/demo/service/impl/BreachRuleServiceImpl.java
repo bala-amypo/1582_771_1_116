@@ -13,14 +13,12 @@ import java.util.List;
 @Service
 public class BreachRuleServiceImpl implements BreachRuleService {
 
-    @Autowired   // 🔥 THIS FIXES THE 500 ERROR
+    @Autowired   
     private BreachRuleRepository breachRuleRepository;
 
-    // Needed for TestNG
     public BreachRuleServiceImpl() {
     }
 
-    // Optional – Spring will ignore this now
     public BreachRuleServiceImpl(BreachRuleRepository breachRuleRepository) {
         this.breachRuleRepository = breachRuleRepository;
     }

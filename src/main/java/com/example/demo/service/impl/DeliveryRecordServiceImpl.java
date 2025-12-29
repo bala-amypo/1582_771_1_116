@@ -21,11 +21,10 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     @Autowired
     private ContractRepository contractRepository;
 
-    // No-arg constructor (KEEP for tests)
+
     public DeliveryRecordServiceImpl() {
     }
 
-    // All-args constructor (KEEP)
     public DeliveryRecordServiceImpl(DeliveryRecordRepository deliveryRecordRepository,
                                      ContractRepository contractRepository) {
         this.deliveryRecordRepository = deliveryRecordRepository;
@@ -35,16 +34,14 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     @Override
     public DeliveryRecord createDeliveryRecord(DeliveryRecord record) {
 
-        // ✅ ensure new entity
+
         record.setId(null);
 
-        // ✅ delivery date validation (existing rule)
         if (record.getDeliveryDate() != null &&
             record.getDeliveryDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Delivery date cannot be in the future");
         }
 
-        // ✅ SAFE contract handling
         if (record.getContract() != null && record.getContract().getId() != null) {
 
             Contract existingContract = contractRepository.findById(
