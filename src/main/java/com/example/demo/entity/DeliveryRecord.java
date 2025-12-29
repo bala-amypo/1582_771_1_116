@@ -17,7 +17,6 @@ public class DeliveryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // IMPORTANT: no cascade here
     @ManyToOne(optional = false)
     @JoinColumn(name = "contract_id")
     private Contract contract;
